@@ -2,7 +2,10 @@ package com.example.holoreversi.widget;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -158,5 +161,28 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	@Override
 	public void onBoardUpdate(Board board, Cell cell) {
 		drawBoard(board.getAll(), board.getAllowedMoves());
+	}
+	
+	private void showFinishDialog(int player) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+		String playerStr;
+		if (player == Board.WHITE) {
+			playerStr = mContext.getString(R.string.player_name_white);
+		} else {
+			playerStr = mContext.getString(R.string.player_name_blue);
+		}
+		builder
+			.setMessage(playerStr +  mContext.getString(R.string.player_won))
+			.setCancelable(true)
+			.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					// TODO Auto-generated method stub
+					//Restart game
+				}
+			})
+			.create()
+			.show();
+		
 	}
 }
