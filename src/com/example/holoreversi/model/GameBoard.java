@@ -14,8 +14,6 @@ public class GameBoard implements Board,Parcelable {
 	private int scoreBlack;
 	private int boardSize;
 	private Cell tiles[][] = null;
-	final private int BLACK = 2;
-	final private int WHITE = 1;
 	
 	
 	public GameBoard(int size)
@@ -200,5 +198,16 @@ public class GameBoard implements Board,Parcelable {
 				dest.writeInt(cell.contents);
 			}
 		}
+	}
+
+	@Override
+	public Cell[][] getAll() {
+		return tiles;
+	}
+
+	@Override
+	public void move(Cell cell) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,6 +1,8 @@
 package com.example.holoreversi.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +18,9 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	final private Board mBoard;
 	private Context mContext;
 	private BoardView mBoardView;
+	private Drawable mDrawableWhite;
+	private Drawable mDrawableBlack;
+	private Drawable mDrawableEmpty;
 	
 	public BoardAdapter(Board board) {
 		mBoard = board;
@@ -31,13 +36,38 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	}
 
 	public void init() {
+		Resources r = mContext.getResources();
+		mDrawableWhite = r.getDrawable(R.drawable.white);
+		mDrawableBlack = r.getDrawable(R.drawable.blue);
+		mDrawableEmpty = r.getDrawable(R.drawable.empty);
+
 		initBoardView(mBoard.getSize());
+		setInitialState(mBoard.getSize(),mBoard.getAll());
 	}
 
-
-	@Override
-	public void onClick(View v) {
+	private void setInitialState(int size, Cell[][] all) {
+		for (int i=0; i< size; i++) {
+			for(int j=0; j< size; j++) {
+				drawState(all[i][j]);
+			}
+		}
 		
+	}
+
+	private void drawState(Cell cell) {
+		TableRow row = (TableRow)mBoardView.getChildAt(cell.y + 1);
+		ImageButton btn = (ImageButton)row.getChildAt(cell.x + 1);
+		switch (cell.contents) {
+		case Board.WHITE:
+			btn.setImageDrawable(mDrawableWhite);
+			break;
+		case Board.BLACK:
+			btn.setImageDrawable(mDrawableBlack);
+			break;
+		default:
+			btn.setImageDrawable(mDrawableEmpty);
+			break;
+		}
 	}
 
 	private void initBoardView(int size) {
@@ -46,9 +76,6 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		//add header
 		tr = createHintRow(size, li);
 		mBoardView.addView(tr);
-		
-		int middle = (int)(size / 2) - 1;
-
 		
 		for(int i=0; i<size; i++) {
 			tr = (TableRow)li.inflate(R.layout.board_row, null);
@@ -59,17 +86,8 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 					tr.addView(label);
 				} else {
 					final ImageButton btn = (ImageButton)li.inflate(R.layout.board_view_btn, null);
+					btn.setTag(new Cell(j-1, i));
 					btn.setOnClickListener(this);
-					// TODO: move to model?
-					if (middle == i && middle+1 == j) {
-						btn.setImageResource(R.drawable.blue);
-					} else if (middle == i && middle+2 == j) {
-						btn.setImageResource(R.drawable.white);
-					} else if (middle+1 == i && middle+1 == j) {
-						btn.setImageResource(R.drawable.white);
-					} else if (middle+1 == i && middle+2 == j) {
-						btn.setImageResource(R.drawable.blue);
-					}
 					tr.addView(btn);
 				}
 			}
@@ -84,6 +102,13 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		mBoardView.addView(tr);
 
 		
+	}
+	
+
+	@Override
+	public void onClick(View v) {
+		Cell cell = (Cell)v.getTag();
+		mBoard.move(cell);
 	}
 
 	private TableRow createHintRow(int size, LayoutInflater li) {
@@ -102,7 +127,6 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 
 	@Override
 	public void onBoardUpdate(Board board, Cell cell, int newState) {
-		// TODO Auto-generated method stub
-		
+
 	}
 }

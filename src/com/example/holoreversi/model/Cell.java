@@ -9,6 +9,6 @@ public class Cell {
 	public Cell(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.contents = 0; // represents empty cell;
+		this.contents = Board.EMPTY; // represents empty cell;
 	}
 }
