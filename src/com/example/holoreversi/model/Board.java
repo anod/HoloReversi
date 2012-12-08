@@ -9,14 +9,11 @@ public interface Board {
 		void onBoardUpdate(Board board, Cell cell, int newState);
 	}
 
+	int getSize();
 	int getScoreWhite();
 	int getScoreBlack();
-	void moveWhite(int x,int y);
-	void moveBlack(int x, int y);
-	Cell[] getAllowedMovesWhite();
-	Cell[] getAllowedMovesBlack();
 	Cell[][] getAll();
-	void addCallbackListener(Callback callback);
-	int getSize();
 	void move(Cell cell);
+	Cell[] getAllowedMoves();
+	void addCallbackListener(Callback callback);
 }

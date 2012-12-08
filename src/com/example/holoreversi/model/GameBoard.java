@@ -61,22 +61,6 @@ public class GameBoard implements Board,Parcelable {
     		}
     };
     
-	@Override
-	public void moveWhite(int x, int y) {
-		int changed = move(x,y,WHITE);
-		scoreBlack -= changed;
-		scoreWhite += changed;
-		step++;
-	}
-
-	@Override
-	public void moveBlack(int x, int y) {
-		int changed = move(x,y,BLACK);
-		scoreBlack += changed;
-		scoreWhite -= changed;
-		step++;
-	}
-
 	private void calculateScore() {
 		scoreBlack = 0;
 		scoreWhite = 0;
@@ -107,14 +91,14 @@ public class GameBoard implements Board,Parcelable {
 		return (Cell[]) arr.toArray();
 	}
 	@Override
-	public Cell[] getAllowedMovesWhite() {
+	public Cell[] getAllowedMoves() {
+		int kind = currentPlayer();
+		if (kind == BLACK) {
+			return getAllowedCells(BLACK);
+		}
 		return getAllowedCells(WHITE);
 	}
 
-	@Override
-	public Cell[] getAllowedMovesBlack() {
-		return getAllowedCells(BLACK);
-	}
 	private Cell[] getAllowedCells(int kind)
 	{
 		ArrayList<Cell> arr = new ArrayList<Cell>();
