@@ -11,8 +11,15 @@
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
-    
+    <style name="Holo.ImageButton">
+        <item name="android:background">@drawable/btn_default_holo_dark</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:scaleType">center</item>
+    </style>
     <style name="Holo.Theme" parent="Theme.Sherlock">
+        <item name="android:windowBackground">@drawable/background_holo_dark</item>
         <item name="android:buttonStyle">@style/Holo.Button</item>
+        <item name="android:imageButtonStyle">@style/Holo.ImageButton</item>
     </style>
 </resources>

@@ -1,5 +1,11 @@
 package com.example.holoreversi.model;
 
 public class Cell {
-	int x, y;
+	public int x;
+	public int y;
+	
+	public Cell(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 }
