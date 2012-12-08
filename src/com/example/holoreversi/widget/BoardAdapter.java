@@ -42,7 +42,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		initDrawables();
 		
 		initBoardView(mBoard.getSize());
-		setInitialState(mBoard.getAll(), mBoard.getAllowedMoves());
+		drawBoard(mBoard.getAll(), mBoard.getAllowedMoves());
 	}
 
 	private void initDrawables() {
@@ -53,7 +53,8 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		mDrawableAllowed = r.getDrawable(R.drawable.reversi_allowed_move);
 	}
 
-	private void setInitialState(Cell[][] all, ArrayList<Cell> allowed) {
+	private void drawBoard(Cell[][] all, ArrayList<Cell> allowed) {
+
 		for (int i=0; i< all.length; i++) {
 			for(int j=0; j< all.length; j++) {
 				drawState(all[i][j]);
@@ -74,12 +75,15 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		switch (cell.contents) {
 		case Board.WHITE:
 			btn.setImageDrawable(mDrawableWhite);
+			((Cell)btn.getTag()).contents = Board.WHITE;
 			break;
 		case Board.BLACK:
 			btn.setImageDrawable(mDrawableBlack);
+			((Cell)btn.getTag()).contents = Board.BLACK;
 			break;
 		default:
 			btn.setImageDrawable(mDrawableEmpty);
+			((Cell)btn.getTag()).contents = Board.EMPTY;
 			break;
 		}
 	}
@@ -147,6 +151,6 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 
 	@Override
 	public void onBoardUpdate(Board board, Cell cell) {
-
+		drawBoard(board.getAll(), board.getAllowedMoves());
 	}
 }
