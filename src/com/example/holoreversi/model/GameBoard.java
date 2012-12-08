@@ -257,6 +257,8 @@ public class GameBoard implements Board,Parcelable {
 		}
 		calculateScore();
 		step++;
+		if(getAllowedMoves().size() == 0)
+			step++;
 		notifyCellUpdate();
 	}
 	
