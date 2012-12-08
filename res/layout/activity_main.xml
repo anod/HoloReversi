@@ -5,21 +5,21 @@
     tools:context=".MainActivity" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:text="@string/app_name"
-        android:textSize="36dp"
+        android:textSize="36sp"
         android:textStyle="bold|italic" />
 
     <Spinner
-        android:id="@+id/spinner1"
+        android:id="@+id/boardSizeSelector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/Headline"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/menu_title"
         android:layout_centerHorizontal="true"
@@ -32,7 +32,7 @@
         android:id="@+id/buttonStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/boardSizeSelector"
         android:layout_centerHorizontal="true"
         android:text="@string/start_game" />
 

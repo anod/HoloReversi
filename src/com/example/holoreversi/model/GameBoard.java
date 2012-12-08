@@ -11,9 +11,25 @@ public class GameBoard implements Board {
 	private int scoreBlack;
 	private int boardSize;
 	private Cell tiles[][] = null;
+	final private int BLACK = 2;
+	final private int WHITE = 1;
+	public GameBoard(int size)
+	{
+		boardSize = size;
+		tiles = new Cell[boardSize][boardSize];
+		for (int i=0;i<boardSize;i++) {
+			for (int j=0;j<boardSize;j++) {
+				tiles[i][j] = new Cell(i, j);
+			}
+		}
+		tiles[boardSize/2-1][boardSize/2].contents=BLACK;
+		tiles[boardSize/2][boardSize/2-1].contents=BLACK;
+		tiles[boardSize/2-1][boardSize/2-1].contents=WHITE;
+		tiles[boardSize/2][boardSize/2].contents=WHITE;
+	}
 	@Override
 	public void moveWhite(int x, int y) {
-		if(move(x,y,1))
+		if(move(x,y,WHITE))
 			calculateScore();
 		else
 		{ 
@@ -23,7 +39,7 @@ public class GameBoard implements Board {
 
 	@Override
 	public void moveBlack(int x, int y) {
-		if(move(x,y,2))
+		if(move(x,y,BLACK))
 			calculateScore();
 		else
 		{ 
@@ -37,10 +53,10 @@ public class GameBoard implements Board {
 		for (Cell[] c : tiles) {
 			for (Cell single : c) {
 				switch (single.contents) {
-				case 2:
+				case BLACK:
 					scoreBlack++;
 					break;
-				case 1:
+				case WHITE:
 					scoreWhite++;
 					break;
 				default:
@@ -62,19 +78,19 @@ public class GameBoard implements Board {
 	}
 	@Override
 	public Cell[] getAllowedMovesWhite() {
-		return getAllowedCells(1);
+		return getAllowedCells(WHITE);
 	}
 
 	@Override
 	public Cell[] getAllowedMovesBlack() {
-		return getAllowedCells(2);
+		return getAllowedCells(BLACK);
 	}
 	private Cell[] getAllowedCells(int kind)
 	{
 		ArrayList<Cell> arr = new ArrayList<Cell>();
 		Cell[] emptyCells = getEmpty();
 		for (Cell cell : emptyCells) {
-			if(isValid(cell, 1))
+			if(isValid(cell, kind))
 				arr.add(cell);
 		}
 		return (Cell[]) arr.toArray();
@@ -103,7 +119,7 @@ public class GameBoard implements Board {
 	private int checkCell(int x,int y, int incx, int incy, int kind , boolean set)  {
 		// totally based with limited understanding on reversi.java.net
 		int opponent;
-		if (kind == 2) opponent=1; else opponent=2;
+		if (kind == BLACK) opponent=WHITE; else opponent=BLACK;
 		int n_inc=0;
 		x+=incx; y+=incy;
 		while ((x<boardSize) && (x>=0) && (y<boardSize) && (y>=0) && (tiles[x][y].contents==opponent)) {
@@ -136,7 +152,7 @@ public class GameBoard implements Board {
 		if (checkCell(cell.x,cell.y,-1,-1,kind,false) != 0) return true;
 		return false;
 	}
-	private boolean move(int x,int y, int player)
+	private boolean move(int x,int y, int kind)
 	{
 		return true;
 	}
