@@ -22,6 +22,8 @@ public class GameBoard implements Board,Parcelable {
 
 	public GameBoard(int size)
 	{
+		stepChanges = new ArrayList<Cell>();
+		listenrs = new ArrayList<Board.Callback>();
 		boardSize = size;
 		tiles = new Cell[boardSize][boardSize];
 		for (int i=0;i<boardSize;i++) {
@@ -35,16 +37,17 @@ public class GameBoard implements Board,Parcelable {
 		//tiles[boardSize/2][boardSize/2].contents=WHITE;
 		updateTile(tiles[boardSize/2-1][boardSize/2], BLACK);
 		updateTile(tiles[boardSize/2][boardSize/2-1], BLACK);
-		updateTile(tiles[boardSize/2-1][boardSize/2-1], BLACK);
+		updateTile(tiles[boardSize/2-1][boardSize/2-1], WHITE);
 		updateTile(tiles[boardSize/2][boardSize/2], WHITE);
 		
 		scoreBlack = 2;
 		scoreWhite = 2;
 		step = 0;
-		listenrs = new ArrayList<Board.Callback>();
 	}
 	
     public GameBoard(Parcel in) {
+		stepChanges = new ArrayList<Cell>();
+		listenrs = new ArrayList<Board.Callback>();
     	boardSize = in.readInt();
     	tiles = new Cell[boardSize][boardSize];
 		for (int i=0;i<boardSize;i++) {

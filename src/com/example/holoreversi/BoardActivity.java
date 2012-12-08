@@ -3,6 +3,7 @@ package com.example.holoreversi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -21,12 +22,13 @@ import com.example.holoreversi.widget.BoardView;
 public class BoardActivity extends SherlockActivity implements Board.Callback {
 	
 	
+	private static final String STATE_BOARD = "state_board";
 	public static final String EXTRA_BOARD_SIZE = "BoardSize";
 	private TextView mScoreWhite;
 	private TextView mScoreBlack;
 	private ImageButton mPlayerWhite;
 	private ImageButton mPlayerBlack;
-
+	private GameBoard mBoard;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,11 +36,17 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		int boardSize = getIntent().getIntExtra(EXTRA_BOARD_SIZE, 0);
-		if (boardSize == 0) {
-			Log.e("BoardActivity", "Invalid board size");
-			finish();
-			return;
+		Intent intent = getIntent();
+		if (intent == null) {
+			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
+		} else {
+			int boardSize = getIntent().getIntExtra(EXTRA_BOARD_SIZE, 0);
+			if (boardSize == 0) {
+				Log.e("BoardActivity", "Invalid board size");
+				finish();
+				return;
+			}
+			mBoard = new GameBoard(boardSize);
 		}
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
 		mScoreWhite = (TextView)findViewById(R.id.scoreWhite);
@@ -46,13 +54,12 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		mPlayerWhite = (ImageButton)findViewById(R.id.playerWhite);
 		mPlayerBlack = (ImageButton)findViewById(R.id.playerBlack);
 		
-		GameBoard board = new GameBoard(boardSize);
-		BoardAdapter adapter = new BoardAdapter(board);
+		BoardAdapter adapter = new BoardAdapter(mBoard);
 		boardView.setAdapter(adapter);
-		board.addCallbackListener(this);
+		mBoard.addCallbackListener(this);
 		
-		setScoreView(board.getScoreBlack(),board.getScoreWhite());
-		setPlayerView(board.currentPlayer());
+		setScoreView(mBoard.getScoreBlack(),mBoard.getScoreWhite());
+		setPlayerView(mBoard.currentPlayer());
 		
 	}
 
@@ -124,4 +131,12 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 			.show();
 		
 	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putParcelable(STATE_BOARD, mBoard);
+		super.onSaveInstanceState(outState);
+	}
+	
+	
 }
