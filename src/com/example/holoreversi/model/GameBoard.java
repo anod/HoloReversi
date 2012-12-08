@@ -2,6 +2,7 @@ package com.example.holoreversi.model;
 
 import java.util.ArrayList;
 
+import android.R.bool;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -24,22 +25,7 @@ public class GameBoard implements Board,Parcelable {
 		stepChanges = new ArrayList<Cell>();
 		listenrs = new ArrayList<Board.Callback>();
 		boardSize = size;
-		stepChanges = new ArrayList<Cell>();
-		listenrs = new ArrayList<Board.Callback>();
-		tiles = new Cell[boardSize][boardSize];
-		for (int i=0;i<boardSize;i++) {
-			for (int j=0;j<boardSize;j++) {
-				tiles[i][j] = new Cell(i, j);
-			}
-		}
-		tiles[boardSize/2-1][boardSize/2].contents=BLACK;
-		tiles[boardSize/2][boardSize/2-1].contents=BLACK;
-		tiles[boardSize/2-1][boardSize/2-1].contents=WHITE;
-		tiles[boardSize/2][boardSize/2].contents=WHITE;
-		
-		scoreBlack = 2;
-		scoreWhite = 2;
-		step = 0;
+		resetBoard();
 	}
 	
     public GameBoard(Parcel in) {
@@ -75,7 +61,22 @@ public class GameBoard implements Board,Parcelable {
     			return null; // i think it is correct since there can only be one board
     		}
     };
-    
+    public void resetBoard()
+    {
+		stepChanges.clear();
+    	tiles = new Cell[boardSize][boardSize];
+		for (int i=0;i<boardSize;i++) {
+			for (int j=0;j<boardSize;j++) {
+				tiles[i][j] = new Cell(i, j);
+			}
+		}
+		tiles[boardSize/2-1][boardSize/2].contents=BLACK;
+		tiles[boardSize/2][boardSize/2-1].contents=BLACK;
+		tiles[boardSize/2-1][boardSize/2-1].contents=WHITE;
+		tiles[boardSize/2][boardSize/2].contents=WHITE;
+		calculateScore();
+		step = 0;
+    }
 	private void calculateScore() {
 		scoreBlack = 0;
 		scoreWhite = 0;
@@ -275,5 +276,28 @@ public class GameBoard implements Board,Parcelable {
 		for (Callback callback : listenrs) {
 			callback.onBoardUpdate(this);
 		}
+	}
+	public boolean isGameEnded()
+	{
+		if(scoreBlack+scoreWhite == boardSize*boardSize)
+			return true;
+		if(getAllowedMoves().size() == 0)
+			return true;
+		return false;
+	}
+	@Override
+	public int winner()
+	{
+		if(!isGameEnded())
+		{
+			return -1;
+		}
+		if(scoreBlack > scoreWhite){
+			return BLACK;
+		}
+		else if (scoreWhite > scoreBlack) {
+			return WHITE;
+		}
+		return EMPTY;
 	}
 }

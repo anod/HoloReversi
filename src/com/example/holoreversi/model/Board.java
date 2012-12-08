@@ -20,4 +20,5 @@ public interface Board {
 	ArrayList<Cell> getAllowedMoves();
 	void addCallbackListener(Callback callback);
 	boolean undoMove();
+	int winner();
 }
