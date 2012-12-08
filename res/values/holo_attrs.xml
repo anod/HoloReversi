@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="spinnerStyle" format="reference" />
+	<declare-styleable name="AbsSpinner">
+		<attr name="android:entries" />
+	</declare-styleable>
+   	<declare-styleable name="Spinner">
+		<attr name="android:prompt" />
+		<attr name="spinnerMode" format="enum">
+			<enum name="dialog" value="0" />
+			<enum name="dropdown" value="1" />
+		</attr>
+		<attr name="android:dropDownSelector" />
+		<attr name="android:popupBackground" />
+		<attr name="dropDownVerticalOffset" format="dimension" />
+		<attr name="dropDownHorizontalOffset" format="dimension" />
+		<attr name="android:dropDownWidth" />
+		<attr name="popupPromptView" format="reference" />
+		<attr name="android:gravity" />
+		<attr name="disableChildrenWhenDisabled" format="boolean" />
+	</declare-styleable>
+</resources>

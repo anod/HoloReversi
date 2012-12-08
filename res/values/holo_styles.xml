@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="Holo"/>
+    <style name="Holo.TextAppearance">
+        <!--Include block: ColorsDark-->
+        <item name="android:textColor">@color/abs__primary_text_holo_dark</item>
+        <item name="android:textColorHighlight">@color/highlighted_text_holo_dark</item>
+        <item name="android:textColorHint">@color/hint_foreground_holo_dark</item>
+        <!--End of block ColorsDark-->
+        <item name="android:textColorLink">@color/holo_blue_light</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="Holo.TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+    </style>
+    
     <style name="Holo.Button">
         <item name="android:background">@drawable/btn_default_holo_dark</item>
         <item name="android:clickable">true</item>
@@ -17,9 +31,29 @@
         <item name="android:focusable">true</item>
         <item name="android:scaleType">center</item>
     </style>
+    <style name="Holo.Spinner">
+        <item name="android:background">@drawable/spinner_background_holo_dark</item>
+        <item name="android:clickable">true</item>
+        <item name="android:dropDownSelector">@drawable/list_selector_holo_dark</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_holo_dark</item>
+        <item name="dropDownHorizontalOffset">0dip</item>
+        <item name="dropDownVerticalOffset">0dip</item>
+        <item name="spinnerMode">dropdown</item>
+        <item name="android:textAppearance">@style/Holo.TextAppearance.Medium</item>
+        
+    </style>
+    <style name="Holo.Spinner.Item" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textAppearance">@style/Holo.TextAppearance.Medium</item>
+    </style>
+    
     <style name="Holo.Theme" parent="Theme.Sherlock">
         <item name="android:windowBackground">@drawable/background_holo_dark</item>
         <item name="android:buttonStyle">@style/Holo.Button</item>
         <item name="android:imageButtonStyle">@style/Holo.ImageButton</item>
+        <item name="spinnerStyle">@style/Holo.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/Holo.Spinner.Item</item>
+        <item name="android:spinnerStyle">@style/Holo.Spinner</item>
     </style>
 </resources>

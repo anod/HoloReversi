@@ -24,7 +24,8 @@
         android:contentDescription="@string/menu_title"
         android:layout_centerHorizontal="true"
         android:prompt="@string/menu_title"
-        android:entries="@array/board_sizes" />
+        android:entries="@array/board_sizes"
+        />
 
 
     <Button

@@ -2,6 +2,8 @@ package com.example.holoreversi.widget;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 import com.example.holoreversi.R;
 import com.example.holoreversi.model.Board;
 
-public class BoardAdapter {
+public class BoardAdapter implements Board.Callback, OnClickListener  {
 	final private Board mBoard;
 	final private Context mContext;
 	final private TableLayout mBoardView;
@@ -19,12 +21,23 @@ public class BoardAdapter {
 		mBoard = board;
 		mContext = context;
 		mBoardView = boardView;
+		mBoard.setCallback(this);
 	}
 	
 	public void init() {
 		initBoardView(mBoard.getSize());
 	}
 	
+	@Override
+	public void onBoardUpdate(Board board) {
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		
+	}
+
 	private void initBoardView(int size) {
 		TableRow tr;
 		final LayoutInflater li = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -44,6 +57,8 @@ public class BoardAdapter {
 					tr.addView(label);
 				} else {
 					final ImageButton btn = (ImageButton)li.inflate(R.layout.board_view_btn, null);
+					btn.setOnClickListener(this);
+					// TODO: move to model?
 					if (middle == i && middle+1 == j) {
 						btn.setImageResource(R.drawable.blue);
 					} else if (middle == i && middle+2 == j) {
