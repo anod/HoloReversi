@@ -2,6 +2,7 @@ package com.example.holoreversi.model;
 
 import java.util.ArrayList;
 
+import android.location.GpsStatus.Listener;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,9 +15,9 @@ public class GameBoard implements Board,Parcelable {
 	private int scoreBlack;
 	private int boardSize;
 	private Cell tiles[][] = null;
-	final public int BLACK = 2;
-	final public int WHITE = 1;
-	final public int EMPTY = 0;
+	//private ArrayList<ArrayList<Cell>> stepChanges;
+	private ArrayList<Cell> stepChanges;
+	private ArrayList<Callback> listenrs;
 	private int step;
 
 	public GameBoard(int size)
@@ -28,13 +29,19 @@ public class GameBoard implements Board,Parcelable {
 				tiles[i][j] = new Cell(i, j);
 			}
 		}
-		tiles[boardSize/2-1][boardSize/2].contents=BLACK;
-		tiles[boardSize/2][boardSize/2-1].contents=BLACK;
-		tiles[boardSize/2-1][boardSize/2-1].contents=WHITE;
-		tiles[boardSize/2][boardSize/2].contents=WHITE;
+		//tiles[boardSize/2-1][boardSize/2].contents=BLACK;
+		//tiles[boardSize/2][boardSize/2-1].contents=BLACK;
+		//tiles[boardSize/2-1][boardSize/2-1].contents=WHITE;
+		//tiles[boardSize/2][boardSize/2].contents=WHITE;
+		updateTile(tiles[boardSize/2-1][boardSize/2], BLACK);
+		updateTile(tiles[boardSize/2][boardSize/2-1], BLACK);
+		updateTile(tiles[boardSize/2-1][boardSize/2-1], BLACK);
+		updateTile(tiles[boardSize/2][boardSize/2], WHITE);
+		
 		scoreBlack = 2;
 		scoreWhite = 2;
 		step = 0;
+		listenrs = new ArrayList<Board.Callback>();
 	}
 	
     public GameBoard(Parcel in) {
@@ -43,10 +50,16 @@ public class GameBoard implements Board,Parcelable {
 		for (int i=0;i<boardSize;i++) {
 			for (int j=0;j<boardSize;j++) {
 				tiles[i][j] = new Cell(i, j);
-				tiles[i][j].contents = in.readInt(); // it might be more correct to write and read entire arrays but i;m not sure how to test it
+				updateTile(tiles[i][j],in.readInt()); // it might be more correct to write and read entire arrays but i;m not sure how to test it
+				
 			}
 		}
 		step = in.readInt();
+		int size = in.readInt();
+		for(int i=0;i<size;i++)
+		{
+			stepChanges.add(new Cell(in));
+		}
 		calculateScore();
 		
 	}
@@ -112,8 +125,7 @@ public class GameBoard implements Board,Parcelable {
 	
 	@Override
 	public void addCallbackListener(Callback callback) {
-		// TODO Auto-generated method stub
-
+		listenrs.add(callback);
 	}
 
 	@Override
@@ -144,7 +156,7 @@ public class GameBoard implements Board,Parcelable {
 			 if (set)
 			 for (int j = 1 ; j <= n_inc ; j++) {
 				x-=incx; y-=incy;
-				tiles[x][y].contents = kind;
+				updateTile(x, y,kind);
 			 }
 			return n_inc;
 		}
@@ -182,11 +194,20 @@ public class GameBoard implements Board,Parcelable {
 		j+=checkCell(x,y, 1,-1,kind,true);
 		j+=checkCell(x,y, -1,-1,kind,true);
 		if (j != 0) 
-			tiles[x][y].contents = kind;
+			updateTile(x, y, kind);
+			//tiles[x][y].contents = kind;
 		return j;
 	}
 	public boolean undoMove(int kind)
 	{	
+		if(step == 0)
+			return false;
+		step--;
+		for (Cell cell : stepChanges) {
+			tiles[cell.x][cell.y].contents = cell.contents; 
+			notifyCellUpdate(cell);
+		}
+		calculateScore();
 		return true;
 	}
 	
@@ -205,6 +226,10 @@ public class GameBoard implements Board,Parcelable {
 			}
 		}
 		dest.writeInt(step);
+		dest.writeInt(stepChanges.size());
+		for (Cell cell : stepChanges) {
+			cell.writeToParcel(dest, flags);
+		}
 	}
 	
 	@Override
@@ -223,6 +248,7 @@ public class GameBoard implements Board,Parcelable {
 	@Override
 	public void move(Cell cell) {
 		int kind = currentPlayer();
+		stepChanges.clear();
 		int changed = move(cell.x,cell.y,kind);
 		if(kind == BLACK)
 		{
@@ -236,5 +262,22 @@ public class GameBoard implements Board,Parcelable {
 		}
 		step++;		
 	}
-
+	
+	private void updateTile(Cell cell,int kind)
+	{
+		updateTile(cell.x, cell.y, kind)
+	}
+	private void updateTile(int x, int y,int kind)
+	{
+		stepChanges.add(tiles[x][y]);
+		tiles[x][y].contents = kind;
+		notifyCellUpdate(tiles[x][y]);
+	}
+	
+	private void notifyCellUpdate(Cell cell)
+	{
+		for (Callback callback : listenrs) {
+			callback.onBoardUpdate(this, cell);
+		}
+	}
 }
