@@ -1,5 +1,7 @@
 package com.example.holoreversi.widget;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -21,6 +23,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	private Drawable mDrawableWhite;
 	private Drawable mDrawableBlack;
 	private Drawable mDrawableEmpty;
+	private Drawable mDrawableAllowed;
 	
 	public BoardAdapter(Board board) {
 		mBoard = board;
@@ -36,27 +39,38 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	}
 
 	public void init() {
+		initDrawables();
+		
+		initBoardView(mBoard.getSize());
+		setInitialState(mBoard.getAll(), mBoard.getAllowedMoves());
+	}
+
+	private void initDrawables() {
 		Resources r = mContext.getResources();
 		mDrawableWhite = r.getDrawable(R.drawable.reversi_stone_white);
 		mDrawableBlack = r.getDrawable(R.drawable.reversi_stone_blue);
 		mDrawableEmpty = r.getDrawable(R.drawable.reversi_stone_empty);
-
-		initBoardView(mBoard.getSize());
-		setInitialState(mBoard.getSize(),mBoard.getAll());
+		mDrawableAllowed = r.getDrawable(R.drawable.reversi_allowed_move);
 	}
 
-	private void setInitialState(int size, Cell[][] all) {
-		for (int i=0; i< size; i++) {
-			for(int j=0; j< size; j++) {
+	private void setInitialState(Cell[][] all, ArrayList<Cell> allowed) {
+		for (int i=0; i< all.length; i++) {
+			for(int j=0; j< all.length; j++) {
 				drawState(all[i][j]);
 			}
 		}
-		
+		for (int i=0; i<allowed.size(); i++) {
+			drawAllowed(allowed.get(i));
+		}
+	}
+
+	private void drawAllowed(Cell cell) {
+		ImageButton btn = getImageButton(cell);
+		btn.setImageDrawable(mDrawableAllowed);
 	}
 
 	private void drawState(Cell cell) {
-		TableRow row = (TableRow)mBoardView.getChildAt(cell.y + 1);
-		ImageButton btn = (ImageButton)row.getChildAt(cell.x + 1);
+		ImageButton btn = getImageButton(cell);
 		switch (cell.contents) {
 		case Board.WHITE:
 			btn.setImageDrawable(mDrawableWhite);
@@ -68,6 +82,12 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 			btn.setImageDrawable(mDrawableEmpty);
 			break;
 		}
+	}
+
+	private ImageButton getImageButton(Cell cell) {
+		TableRow row = (TableRow)mBoardView.getChildAt(cell.y + 1);
+		ImageButton btn = (ImageButton)row.getChildAt(cell.x + 1);
+		return btn;
 	}
 
 	private void initBoardView(int size) {

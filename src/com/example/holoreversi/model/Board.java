@@ -1,5 +1,7 @@
 package com.example.holoreversi.model;
 
+import java.util.ArrayList;
+
 public interface Board {
 	final public static int BLACK = 2;
 	final public static int WHITE = 1;
@@ -14,6 +16,6 @@ public interface Board {
 	int getScoreBlack();
 	Cell[][] getAll();
 	void move(Cell cell);
-	Cell[] getAllowedMoves();
+	ArrayList<Cell> getAllowedMoves();
 	void addCallbackListener(Callback callback);
 }

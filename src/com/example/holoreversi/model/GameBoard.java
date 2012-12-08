@@ -79,7 +79,7 @@ public class GameBoard implements Board,Parcelable {
 			}
 		}
 	}
-	private Cell[] getEmpty()
+	private ArrayList<Cell> getEmpty()
 	{
 		ArrayList<Cell> arr = new ArrayList<Cell>();
 		for (Cell[] c : tiles) {
@@ -88,10 +88,10 @@ public class GameBoard implements Board,Parcelable {
 					arr.add(single);
 			}
 		}
-		return (Cell[]) arr.toArray();
+		return arr;
 	}
 	@Override
-	public Cell[] getAllowedMoves() {
+	public ArrayList<Cell> getAllowedMoves() {
 		int kind = currentPlayer();
 		if (kind == BLACK) {
 			return getAllowedCells(BLACK);
@@ -99,15 +99,15 @@ public class GameBoard implements Board,Parcelable {
 		return getAllowedCells(WHITE);
 	}
 
-	private Cell[] getAllowedCells(int kind)
+	private ArrayList<Cell> getAllowedCells(int kind)
 	{
 		ArrayList<Cell> arr = new ArrayList<Cell>();
-		Cell[] emptyCells = getEmpty();
+		ArrayList<Cell> emptyCells = getEmpty();
 		for (Cell cell : emptyCells) {
 			if(isValid(cell, kind))
 				arr.add(cell);
 		}
-		return (Cell[]) arr.toArray();
+		return arr;
 	}
 	
 	@Override
