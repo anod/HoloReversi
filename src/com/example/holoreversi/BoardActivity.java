@@ -1,5 +1,8 @@
 package com.example.holoreversi;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -99,4 +102,26 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		setScoreView(board.getScoreBlack(), board.getScoreWhite());
 	}
 
+	private void showFinishDialog(int player) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		String playerStr;
+		if (player == Board.WHITE) {
+			playerStr = getString(R.string.player_name_white);
+		} else {
+			playerStr = getString(R.string.player_name_blue);
+		}
+		builder
+			.setMessage(playerStr +  getString(R.string.player_won))
+			.setCancelable(true)
+			.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					// TODO Auto-generated method stub
+					//Restart game
+				}
+			})
+			.create()
+			.show();
+		
+	}
 }

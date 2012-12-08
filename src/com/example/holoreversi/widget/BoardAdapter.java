@@ -163,26 +163,4 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		drawBoard(board.getAll(), board.getAllowedMoves());
 	}
 	
-	private void showFinishDialog(int player) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-		String playerStr;
-		if (player == Board.WHITE) {
-			playerStr = mContext.getString(R.string.player_name_white);
-		} else {
-			playerStr = mContext.getString(R.string.player_name_blue);
-		}
-		builder
-			.setMessage(playerStr +  mContext.getString(R.string.player_won))
-			.setCancelable(true)
-			.setOnCancelListener(new OnCancelListener() {
-				@Override
-				public void onCancel(DialogInterface dialog) {
-					// TODO Auto-generated method stub
-					//Restart game
-				}
-			})
-			.create()
-			.show();
-		
-	}
 }
