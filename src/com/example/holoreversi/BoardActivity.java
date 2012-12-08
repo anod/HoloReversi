@@ -3,7 +3,6 @@ package com.example.holoreversi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -36,10 +35,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		Intent intent = getIntent();
-		if (intent == null) {
-			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
-		} else {
+		if (savedInstanceState == null) {
 			int boardSize = getIntent().getIntExtra(EXTRA_BOARD_SIZE, 0);
 			if (boardSize == 0) {
 				Log.e("BoardActivity", "Invalid board size");
@@ -47,6 +43,8 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 				return;
 			}
 			mBoard = new GameBoard(boardSize);
+		} else {
+			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
 		}
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
 		mScoreWhite = (TextView)findViewById(R.id.scoreWhite);

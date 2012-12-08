@@ -31,14 +31,10 @@ public class GameBoard implements Board,Parcelable {
 				tiles[i][j] = new Cell(i, j);
 			}
 		}
-		//tiles[boardSize/2-1][boardSize/2].contents=BLACK;
-		//tiles[boardSize/2][boardSize/2-1].contents=BLACK;
-		//tiles[boardSize/2-1][boardSize/2-1].contents=WHITE;
-		//tiles[boardSize/2][boardSize/2].contents=WHITE;
-		updateTile(tiles[boardSize/2-1][boardSize/2], BLACK);
-		updateTile(tiles[boardSize/2][boardSize/2-1], BLACK);
-		updateTile(tiles[boardSize/2-1][boardSize/2-1], WHITE);
-		updateTile(tiles[boardSize/2][boardSize/2], WHITE);
+		tiles[boardSize/2-1][boardSize/2].contents=BLACK;
+		tiles[boardSize/2][boardSize/2-1].contents=BLACK;
+		tiles[boardSize/2-1][boardSize/2-1].contents=WHITE;
+		tiles[boardSize/2][boardSize/2].contents=WHITE;
 		
 		scoreBlack = 2;
 		scoreWhite = 2;
@@ -53,7 +49,8 @@ public class GameBoard implements Board,Parcelable {
 		for (int i=0;i<boardSize;i++) {
 			for (int j=0;j<boardSize;j++) {
 				tiles[i][j] = new Cell(i, j);
-				updateTile(tiles[i][j],in.readInt()); // it might be more correct to write and read entire arrays but i;m not sure how to test it
+				tiles[i][j].contents = in.readInt();
+				// it might be more correct to write and read entire arrays but i;m not sure how to test it
 				
 			}
 		}
@@ -270,6 +267,7 @@ public class GameBoard implements Board,Parcelable {
 	{
 		updateTile(cell.x, cell.y, kind);
 	}
+	
 	private void updateTile(int x, int y,int kind)
 	{
 		stepChanges.add(tiles[x][y]);
