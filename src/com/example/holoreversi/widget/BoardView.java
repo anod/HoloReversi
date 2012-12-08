@@ -17,6 +17,8 @@ public class BoardView extends TableLayout {
 
 	public void setAdapter(BoardAdapter adapter) {
 		mAdapter = adapter;
-		
+		mAdapter.setContext(getContext());
+		mAdapter.setBoardView(this);
+		mAdapter.init();
 	}
 }

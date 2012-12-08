@@ -49,14 +49,14 @@
 
     </LinearLayout>
 
-    <TableLayout
+    <com.example.holoreversi.widget.BoardView
         android:id="@+id/board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" >
 
-    </TableLayout>
+    </com.example.holoreversi.widget.BoardView>
 
     <LinearLayout
         android:layout_width="match_parent"

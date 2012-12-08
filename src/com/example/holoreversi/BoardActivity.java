@@ -1,16 +1,14 @@
 package com.example.holoreversi;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.widget.TableLayout;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.GameBoard;
 import com.example.holoreversi.widget.BoardAdapter;
+import com.example.holoreversi.widget.BoardView;
 
 public class BoardActivity extends SherlockActivity {
 	
@@ -22,10 +20,10 @@ public class BoardActivity extends SherlockActivity {
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		final TableLayout boardView = (TableLayout)findViewById(R.id.board);
+		final BoardView boardView = (BoardView)findViewById(R.id.board);
 		GameBoard board = new GameBoard();
-		BoardAdapter adapter = new BoardAdapter(boardView, (Context)this, board);
-		adapter.init();
+		BoardAdapter adapter = new BoardAdapter(board);
+		boardView.setAdapter(adapter);
 	}
 
 	@Override

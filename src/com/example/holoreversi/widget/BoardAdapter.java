@@ -14,16 +14,22 @@ import com.example.holoreversi.model.Board;
 
 public class BoardAdapter implements Board.Callback, OnClickListener  {
 	final private Board mBoard;
-	final private Context mContext;
-	final private TableLayout mBoardView;
+	private Context mContext;
+	private BoardView mBoardView;
 	
-	public BoardAdapter(TableLayout boardView, Context context, Board board) {
+	public BoardAdapter(Board board) {
 		mBoard = board;
-		mContext = context;
-		mBoardView = boardView;
 		mBoard.setCallback(this);
 	}
-	
+
+	public void setContext(Context context) {
+		mContext = context;
+	}
+
+	public void setBoardView(BoardView boardView) {
+		mBoardView = boardView;
+	}
+
 	public void init() {
 		initBoardView(mBoard.getSize());
 	}
