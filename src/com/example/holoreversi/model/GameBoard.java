@@ -2,7 +2,6 @@ package com.example.holoreversi.model;
 
 import java.util.ArrayList;
 
-import android.location.GpsStatus.Listener;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -256,16 +255,7 @@ public class GameBoard implements Board,Parcelable {
 		if (changed == 0) {
 			return;
 		}
-		if(kind == BLACK)
-		{
-			scoreBlack += changed;
-			scoreWhite -= changed;
-		}
-		else
-		{
-			scoreBlack -= changed;
-			scoreWhite += changed;
-		}
+		calculateScore();
 		step++;
 		notifyCellUpdate();
 	}
