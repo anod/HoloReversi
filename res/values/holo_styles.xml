@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Holo"/>
+    <style name="Holo.Button">
+        <item name="android:background">@drawable/btn_default_holo_dark</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">64dip</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+    
+    <style name="Holo.Theme" parent="Theme.Sherlock">
+        <item name="android:buttonStyle">@style/Holo.Button</item>
+    </style>
+</resources>

@@ -12,10 +12,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Sherlock" >
+        android:theme="@style/Holo.Theme" >
         <activity
             android:name="com.example.holoreversi.MainActivity"
-            style="@style/Theme.Sherlock"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +25,6 @@
         <activity
             android:name="com.example.holoreversi.BoardActivity"
             android:label="@string/title_activity_board"
-            style="@style/Theme.Sherlock"
             android:parentActivityName="com.example.holoreversi.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
