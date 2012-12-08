@@ -27,7 +27,7 @@ public class GameBoard implements Board {
 	}
 
 	@Override
-	public void setCallback(Callback callback) {
+	public void addCallbackListener(Callback callback) {
 		// TODO Auto-generated method stub
 
 	}

@@ -5,12 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.holoreversi.R;
 import com.example.holoreversi.model.Board;
+import com.example.holoreversi.model.Cell;
 
 public class BoardAdapter implements Board.Callback, OnClickListener  {
 	final private Board mBoard;
@@ -19,7 +19,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	
 	public BoardAdapter(Board board) {
 		mBoard = board;
-		mBoard.setCallback(this);
+		mBoard.addCallbackListener(this);
 	}
 
 	public void setContext(Context context) {
@@ -33,11 +33,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	public void init() {
 		initBoardView(mBoard.getSize());
 	}
-	
-	@Override
-	public void onBoardUpdate(Board board) {
-		
-	}
+
 
 	@Override
 	public void onClick(View v) {
@@ -98,5 +94,11 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 			tr.addView(label);
 		}
 		return tr;
+	}
+
+	@Override
+	public void onBoardUpdate(Board board, Cell cell, int newState) {
+		// TODO Auto-generated method stub
+		
 	}
 }

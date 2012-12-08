@@ -6,11 +6,13 @@ import android.support.v4.app.NavUtils;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.example.holoreversi.model.Board;
+import com.example.holoreversi.model.Cell;
 import com.example.holoreversi.model.GameBoard;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
 
-public class BoardActivity extends SherlockActivity {
+public class BoardActivity extends SherlockActivity implements Board.Callback {
 	
 	
 	@Override
@@ -24,6 +26,7 @@ public class BoardActivity extends SherlockActivity {
 		GameBoard board = new GameBoard();
 		BoardAdapter adapter = new BoardAdapter(board);
 		boardView.setAdapter(adapter);
+		board.addCallbackListener(this);
 	}
 
 	@Override
@@ -48,6 +51,12 @@ public class BoardActivity extends SherlockActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onBoardUpdate(Board board, Cell cell, int newState) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

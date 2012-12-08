@@ -3,7 +3,7 @@ package com.example.holoreversi.model;
 public interface Board {
 
 	interface Callback {
-		void onBoardUpdate(Board board);
+		void onBoardUpdate(Board board, Cell cell, int newState);
 	}
 
 	int getScoreWhite();
@@ -12,6 +12,6 @@ public interface Board {
 	void moveBlack(int x, int y);
 	Cell[] getAllowedMovesWhite();
 	Cell[] getAllowedMovesBlack();
-	void setCallback(Callback callback);
+	void addCallbackListener(Callback callback);
 	int getSize();
 }
