@@ -114,18 +114,26 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	public void onBoardUpdate(Board board) {
 		setPlayerView(board.currentPlayer());
 		setScoreView(board.getScoreBlack(), board.getScoreWhite());
+		if(board.isGameEnded())
+			showFinishDialog();
+		// TODO end the game and return to main activity
 	}
 
-	private void showFinishDialog(int player) {
+	private void showFinishDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		String playerStr;
-		if (player == Board.WHITE) {
-			playerStr = getString(R.string.player_name_white);
+		int winner = mBoard.winner();
+		if (winner == Board.WHITE) {
+			playerStr = getString(R.string.player_name_white) + getString(R.string.player_won);
+		} else if(winner == Board.BLACK) {
+			playerStr = getString(R.string.player_name_blue) + getString(R.string.player_won);
 		} else {
-			playerStr = getString(R.string.player_name_blue);
+			playerStr = getString(R.string.tie);
 		}
+		playerStr += "\n" + getString(R.string.scoreBlack) + mBoard.getScoreBlack();
+		playerStr += "\n" + getString(R.string.scoreWhite) + mBoard.getScoreWhite();
 		builder
-			.setMessage(playerStr +  getString(R.string.player_won))
+			.setMessage(playerStr)
 			.setCancelable(true)
 			.setOnCancelListener(new OnCancelListener() {
 				@Override

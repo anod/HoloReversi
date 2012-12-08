@@ -263,6 +263,7 @@ public class GameBoard implements Board,Parcelable {
 		step++;
 		if(getAllowedMoves().size() == 0)
 			step++;
+		
 		notifyCellUpdate();
 	}
 	
@@ -281,6 +282,7 @@ public class GameBoard implements Board,Parcelable {
 			callback.onBoardUpdate(this);
 		}
 	}
+	@Override
 	public boolean isGameEnded()
 	{
 		if(scoreBlack+scoreWhite == boardSize*boardSize)

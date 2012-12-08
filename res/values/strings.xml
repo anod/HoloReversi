@@ -18,5 +18,8 @@
     <string name="player_name_white">White</string>
     <string name="player_name_blue">Blue</string>
     <string name="player_won">" - WON!"</string>
+    <string name="tie">Its a TIE nobody won</string>
+    <string name="scoreBlack"> Blue: </string>
+    <string name="scoreWhite"> White: </string>
 
 </resources>

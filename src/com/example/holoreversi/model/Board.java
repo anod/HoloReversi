@@ -21,4 +21,5 @@ public interface Board {
 	void addCallbackListener(Callback callback);
 	boolean undoMove();
 	int winner();
+	boolean isGameEnded(); 
 }
