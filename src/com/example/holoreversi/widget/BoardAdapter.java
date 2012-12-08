@@ -77,7 +77,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		ImageButton btn = getImageButton(cell);
 		Cell currentCell = (Cell)btn.getTag();
 		//no need to update
-		if (currentCell.contents == cell.contents) {
+		if (currentCell.contents != Board.EMPTY && currentCell.contents == cell.contents) {
 			return;
 		}
 		
