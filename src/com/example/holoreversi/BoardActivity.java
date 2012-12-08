@@ -1,22 +1,18 @@
 package com.example.holoreversi;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.LayoutInflater;
-import android.widget.ImageButton;
 import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.holoreversi.model.Board;
-import com.example.holoreversi.model.Cell;
+import com.example.holoreversi.model.GameBoard;
+import com.example.holoreversi.widget.BoardAdapter;
 
 public class BoardActivity extends SherlockActivity {
-	private static final int SIZE_BOARD_4 = 4;
-	private Board mBoard;
 	
 	
 	@Override
@@ -26,7 +22,10 @@ public class BoardActivity extends SherlockActivity {
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		initBoardView(SIZE_BOARD_4);
+		final TableLayout boardView = (TableLayout)findViewById(R.id.board);
+		GameBoard board = new GameBoard();
+		BoardAdapter adapter = new BoardAdapter(boardView, (Context)this, board);
+		adapter.init();
 	}
 
 	@Override
@@ -53,59 +52,4 @@ public class BoardActivity extends SherlockActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	
-	private void initBoardView(int size) {
-		final TableLayout boardView = (TableLayout)findViewById(R.id.board);
-		TableRow tr;
-		final LayoutInflater li = getLayoutInflater();
-		//add header
-		tr = createHintRow(size, li);
-		boardView.addView(tr);
-		
-		int middle = (int)(size / 2) - 1;
-
-		
-		for(int i=0; i<size; i++) {
-			tr = (TableRow)li.inflate(R.layout.board_row, null);
-			for(int j=0; j<size + 2; j++) {
-				if (j == 0 || j == size+1) {
-					final TextView label = (TextView)li.inflate(R.layout.board_view_pos, null);
-					label.setText(""+i);
-					tr.addView(label);
-				} else {
-					final ImageButton btn = (ImageButton)li.inflate(R.layout.board_view_btn, null);
-					if (middle == i && middle+1 == j) {
-						btn.setImageResource(R.drawable.blue);
-					} else if (middle == i && middle+2 == j) {
-						btn.setImageResource(R.drawable.white);
-					} else if (middle+1 == i && middle+1 == j) {
-						btn.setImageResource(R.drawable.white);
-					} else if (middle+1 == i && middle+2 == j) {
-						btn.setImageResource(R.drawable.blue);
-					}
-					tr.addView(btn);
-				}
-			}
-			boardView.addView(tr);
-		}
-
-		tr = createHintRow(size, li);
-		boardView.addView(tr);
-
-		
-	}
-
-	private TableRow createHintRow(int size, LayoutInflater li) {
-		TableRow tr = (TableRow)li.inflate(R.layout.board_row, null);
-		for(int i=0; i<size+2; i++) {
-			TextView label = (TextView)li.inflate(R.layout.board_view_pos, null);
-			if (i == 0 || i == size+1) {
-				label.setText(" ");
-			} else {
-				label.setText("" + (char)(96+i));
-			}
-			tr.addView(label);
-		}
-		return tr;
-	}
 }

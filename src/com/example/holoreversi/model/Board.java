@@ -12,4 +12,5 @@ public interface Board {
 	Cell[] getAllowedMovesWhite();
 	Cell[] getAllowedMovesBlack();
 	void setCallback(Callback callback);
+	int getSize();
 }
