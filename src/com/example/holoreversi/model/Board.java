@@ -3,10 +3,11 @@ package com.example.holoreversi.model;
 public interface Board {
 
 	interface Callback {
-		void onScoreUpdate(int white, int black);
 		void onBoardUpdate(Board board);
 	}
-	
+
+	int getScoreWhite();
+	int getScoreBlack();
 	void moveWhite(int x,int y);
 	void moveBlack(int x, int y);
 	Cell[] getAllowedMovesWhite();

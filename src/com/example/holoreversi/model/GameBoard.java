@@ -38,4 +38,16 @@ public class GameBoard implements Board {
 		return 4;
 	}
 
+	@Override
+	public int getScoreWhite() {
+		// TODO Auto-generated method stub
+		return 10;
+	}
+
+	@Override
+	public int getScoreBlack() {
+		// TODO Auto-generated method stub
+		return 20;
+	}
+
 }
