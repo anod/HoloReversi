@@ -11,6 +11,7 @@ public interface Board {
 		void onBoardUpdate(Board board, Cell cell);
 	}
 
+	int currentPlayer();
 	int getSize();
 	int getScoreWhite();
 	int getScoreBlack();

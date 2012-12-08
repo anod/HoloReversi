@@ -206,6 +206,8 @@ public class GameBoard implements Board,Parcelable {
 		}
 		dest.writeInt(step);
 	}
+	
+	@Override
 	public int currentPlayer()
 	{
 		if(step % 2 == 0)
@@ -234,4 +236,5 @@ public class GameBoard implements Board,Parcelable {
 		}
 		step++;		
 	}
+
 }
