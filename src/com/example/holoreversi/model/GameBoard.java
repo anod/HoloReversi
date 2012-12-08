@@ -1,28 +1,71 @@
 package com.example.holoreversi.model;
 
+import java.util.ArrayList;
+
 public class GameBoard implements Board {
 
+	private int scoreWhite;
+	private int scoreBlack;
+	private int boardSize;
+	private Cell tiles[][] = null;
 	@Override
 	public void moveWhite(int x, int y) {
-		// TODO Auto-generated method stub
-
+		if(move(x,y,1))
+			calculateScore();
+		else
+		{ 
+			// error occured
+		}
 	}
 
 	@Override
 	public void moveBlack(int x, int y) {
-		// TODO Auto-generated method stub
-
+		if(move(x,y,2))
+			calculateScore();
+		else
+		{ 
+			// error occured
+		}
 	}
 
+	private void calculateScore() {
+		scoreBlack = 0;
+		scoreWhite = 0;
+		for (Cell[] c : tiles) {
+			for (Cell single : c) {
+				switch (single.contents) {
+				case 2:
+					scoreBlack++;
+					break;
+				case 1:
+					scoreWhite++;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	private Cell[] getEmpty()
+	{
+		ArrayList<Cell> arr = new ArrayList<Cell>();
+		for (Cell[] c : tiles) {
+			for (Cell single : c) {
+				if(single.contents == 0)
+					arr.add(single);
+			}
+		}
+		return (Cell[]) arr.toArray();
+	}
 	@Override
 	public Cell[] getAllowedMovesWhite() {
-		// TODO Auto-generated method stub
+		Cell[] emptyCells = getEmpty();
 		return null;
 	}
 
 	@Override
 	public Cell[] getAllowedMovesBlack() {
-		// TODO Auto-generated method stub
+		Cell[] emptyCells = getEmpty();
 		return null;
 	}
 
@@ -34,20 +77,21 @@ public class GameBoard implements Board {
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 8;
+		return boardSize;
 	}
 
 	@Override
 	public int getScoreWhite() {
-		// TODO Auto-generated method stub
-		return 10;
+		return scoreWhite;
 	}
 
 	@Override
 	public int getScoreBlack() {
-		// TODO Auto-generated method stub
-		return 20;
+		return scoreBlack;
 	}
-
+	
+	private boolean move(int x,int y, int player)
+	{
+		return true;
+	}
 }
