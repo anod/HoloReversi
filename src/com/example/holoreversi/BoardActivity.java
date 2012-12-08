@@ -3,6 +3,8 @@ package com.example.holoreversi;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -17,6 +19,10 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	
 	
 	public static final String EXTRA_BOARD_SIZE = "BoardSize";
+	private TextView mScoreWhite;
+	private TextView mScoreBlack;
+	private ImageButton mPlayerWhite;
+	private ImageButton mPlayerBlack;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +38,35 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 			return;
 		}
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
+		mScoreWhite = (TextView)findViewById(R.id.scoreWhite);
+		mScoreBlack = (TextView)findViewById(R.id.scoreBlack);
+		mPlayerWhite = (ImageButton)findViewById(R.id.playerWhite);
+		mPlayerBlack = (ImageButton)findViewById(R.id.playerBlack);
+		
 		GameBoard board = new GameBoard(boardSize);
 		BoardAdapter adapter = new BoardAdapter(board);
 		boardView.setAdapter(adapter);
 		board.addCallbackListener(this);
+		
+		setScoreView(board.getScoreBlack(),board.getScoreWhite());
+		setPlayerView(board.currentPlayer());
+		
+	}
+
+	private void setPlayerView(int currentPlayer) {
+		if (currentPlayer == Board.BLACK) {
+			mPlayerBlack.setEnabled(true);
+			mPlayerWhite.setEnabled(false);
+		} else {
+			mPlayerBlack.setEnabled(false);
+			mPlayerWhite.setEnabled(true);
+		}
+		
+	}
+
+	private void setScoreView(int scoreBlack, int scoreWhite) {
+		mScoreWhite.setText(""+scoreWhite);
+		mScoreBlack.setText(""+scoreBlack);
 	}
 
 	@Override
