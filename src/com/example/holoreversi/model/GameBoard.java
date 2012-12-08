@@ -14,8 +14,11 @@ public class GameBoard implements Board,Parcelable {
 	private int scoreBlack;
 	private int boardSize;
 	private Cell tiles[][] = null;
-	
-	
+	final public int BLACK = 2;
+	final public int WHITE = 1;
+	final public int EMPTY = 0;
+	private int step;
+
 	public GameBoard(int size)
 	{
 		boardSize = size;
@@ -31,6 +34,7 @@ public class GameBoard implements Board,Parcelable {
 		tiles[boardSize/2][boardSize/2].contents=WHITE;
 		scoreBlack = 2;
 		scoreWhite = 2;
+		step = 0;
 	}
 	
     public GameBoard(Parcel in) {
@@ -42,7 +46,9 @@ public class GameBoard implements Board,Parcelable {
 				tiles[i][j].contents = in.readInt(); // it might be more correct to write and read entire arrays but i;m not sure how to test it
 			}
 		}
+		step = in.readInt();
 		calculateScore();
+		
 	}
 
 	public static final Parcelable.Creator<GameBoard> CREATOR
@@ -57,22 +63,18 @@ public class GameBoard implements Board,Parcelable {
     
 	@Override
 	public void moveWhite(int x, int y) {
-		if(move(x,y,WHITE))
-			calculateScore();
-		else
-		{ 
-			// error occured
-		}
+		int changed = move(x,y,WHITE);
+		scoreBlack -= changed;
+		scoreWhite += changed;
+		step++;
 	}
 
 	@Override
 	public void moveBlack(int x, int y) {
-		if(move(x,y,BLACK))
-			calculateScore();
-		else
-		{ 
-			// error occured
-		}
+		int changed = move(x,y,BLACK);
+		scoreBlack += changed;
+		scoreWhite -= changed;
+		step++;
 	}
 
 	private void calculateScore() {
@@ -98,7 +100,7 @@ public class GameBoard implements Board,Parcelable {
 		ArrayList<Cell> arr = new ArrayList<Cell>();
 		for (Cell[] c : tiles) {
 			for (Cell single : c) {
-				if(single.contents == 0)
+				if(single.contents == EMPTY)
 					arr.add(single);
 			}
 		}
@@ -158,7 +160,7 @@ public class GameBoard implements Board,Parcelable {
 			 if (set)
 			 for (int j = 1 ; j <= n_inc ; j++) {
 				x-=incx; y-=incy;
-				 //set(new cell.x,cell.y(x,y),kind);
+				tiles[x][y].contents = kind;
 			 }
 			return n_inc;
 		}
@@ -180,10 +182,30 @@ public class GameBoard implements Board,Parcelable {
 		if (checkCell(cell.x,cell.y,-1,-1,kind,false) != 0) return true;
 		return false;
 	}
-	private boolean move(int x,int y, int kind)
+	private int move(int x,int y, int kind)
 	{
+		// check increasing x
+		int j=checkCell(x,y, 1,0,kind,true);
+		// check decreasing x
+		j+=checkCell(x,y, -1,0,kind,true);
+		// check increasing y
+		j+=checkCell(x,y, 0,1,kind,true);
+		// check decreasing y
+		j+=checkCell(x,y, 0,-1,kind,true);
+		// check diagonals
+		j+=checkCell(x,y, 1,1,kind,true);
+		j+=checkCell(x,y, -1,1,kind,true);
+		j+=checkCell(x,y, 1,-1,kind,true);
+		j+=checkCell(x,y, -1,-1,kind,true);
+		if (j != 0) 
+			tiles[x][y].contents = kind;
+		return j;
+	}
+	public boolean undoMove(int kind)
+	{	
 		return true;
 	}
+	
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -198,6 +220,13 @@ public class GameBoard implements Board,Parcelable {
 				dest.writeInt(cell.contents);
 			}
 		}
+		dest.writeInt(step);
+	}
+	public int currentPlayer()
+	{
+		if(step % 2 == 0)
+			return BLACK;
+		return WHITE;
 	}
 
 	@Override
@@ -207,7 +236,18 @@ public class GameBoard implements Board,Parcelable {
 
 	@Override
 	public void move(Cell cell) {
-		// TODO Auto-generated method stub
-		
+		int kind = currentPlayer();
+		int changed = move(cell.x,cell.y,kind);
+		if(kind == BLACK)
+		{
+			scoreBlack += changed;
+			scoreWhite -= changed;
+		}
+		else
+		{
+			scoreBlack -= changed;
+			scoreWhite += changed;
+		}
+		step++;		
 	}
 }
