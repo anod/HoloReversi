@@ -6,6 +6,9 @@ import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -13,7 +16,6 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.holoreversi.model.Board;
-import com.example.holoreversi.model.Cell;
 import com.example.holoreversi.model.GameBoard;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
@@ -51,6 +53,13 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		mScoreBlack = (TextView)findViewById(R.id.scoreBlack);
 		mPlayerWhite = (ImageButton)findViewById(R.id.playerWhite);
 		mPlayerBlack = (ImageButton)findViewById(R.id.playerBlack);
+		Button undo = (Button)findViewById(R.id.buttonUndo);
+		undo.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mBoard.undoMove();
+			}
+		});
 		
 		BoardAdapter adapter = new BoardAdapter(mBoard);
 		boardView.setAdapter(adapter);

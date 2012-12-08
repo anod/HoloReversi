@@ -200,7 +200,8 @@ public class GameBoard implements Board,Parcelable {
 		}
 		return j;
 	}
-	public boolean undoMove(int kind)
+	
+	public boolean undoMove()
 	{	
 		if(step == 0)
 			return false;
