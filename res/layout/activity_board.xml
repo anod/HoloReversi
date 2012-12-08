@@ -5,6 +5,7 @@
     tools:context=".BoardActivity" >
 
     <LinearLayout
+        android:id="@+id/scoreLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -54,22 +55,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" >
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/scoreLine"
+        android:layout_above="@+id/statusLine"
+    >
 
     </com.example.holoreversi.widget.BoardView>
 
     <LinearLayout
+        android:id="@+id/statusLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        >
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp" >
+
+        <ImageView
+            android:id="@+id/ImageView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/reversi_player_blue" />
 
         <Button
             android:id="@+id/buttonUndo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/undo" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/reversi_player_white" />
         
     </LinearLayout>
 

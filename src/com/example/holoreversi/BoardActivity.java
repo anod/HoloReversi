@@ -2,6 +2,7 @@ package com.example.holoreversi;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -15,6 +16,8 @@ import com.example.holoreversi.widget.BoardView;
 public class BoardActivity extends SherlockActivity implements Board.Callback {
 	
 	
+	public static final String EXTRA_BOARD_SIZE = "BoardSize";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,7 +25,12 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		int boardSize = getIntent().getExtras().getInt("BoardSize");
+		int boardSize = getIntent().getIntExtra(EXTRA_BOARD_SIZE, 0);
+		if (boardSize == 0) {
+			Log.e("BoardActivity", "Invalid board size");
+			finish();
+			return;
+		}
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
 		GameBoard board = new GameBoard(boardSize);
 		BoardAdapter adapter = new BoardAdapter(board);

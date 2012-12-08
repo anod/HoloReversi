@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     style="@style/BoardButton"
     android:minHeight="38dp"
-    android:src="@drawable/empty" >
+    android:src="@drawable/reversi_stone_empty" >
     
 
 </ImageButton>

@@ -28,7 +28,7 @@ public class MainActivity extends SherlockActivity {
 				Intent intent = new Intent(mContext, BoardActivity.class);
 				Spinner selector = (Spinner)findViewById(R.id.boardSizeSelector);
 				String selected = selector.getItemAtPosition(selector.getSelectedItemPosition()).toString();
-				intent.putExtra("BoardSize" ,Integer.parseInt(selected.substring(2)));
+				intent.putExtra(BoardActivity.EXTRA_BOARD_SIZE ,Integer.parseInt(selected.substring(2)));
 				startActivity(intent);
 			}
 		});

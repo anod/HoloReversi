@@ -37,9 +37,9 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 
 	public void init() {
 		Resources r = mContext.getResources();
-		mDrawableWhite = r.getDrawable(R.drawable.white);
-		mDrawableBlack = r.getDrawable(R.drawable.blue);
-		mDrawableEmpty = r.getDrawable(R.drawable.empty);
+		mDrawableWhite = r.getDrawable(R.drawable.reversi_stone_white);
+		mDrawableBlack = r.getDrawable(R.drawable.reversi_stone_blue);
+		mDrawableEmpty = r.getDrawable(R.drawable.reversi_stone_empty);
 
 		initBoardView(mBoard.getSize());
 		setInitialState(mBoard.getSize(),mBoard.getAll());
