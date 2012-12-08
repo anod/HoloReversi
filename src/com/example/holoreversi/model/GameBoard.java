@@ -2,10 +2,13 @@ package com.example.holoreversi.model;
 
 import java.util.ArrayList;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 //import com.example.holoreversiEngine.move;
 //import com.example.holoreversiEngine.Board.TKind;
 
-public class GameBoard implements Board {
+public class GameBoard implements Board,Parcelable {
 
 	private int scoreWhite;
 	private int scoreBlack;
@@ -13,6 +16,8 @@ public class GameBoard implements Board {
 	private Cell tiles[][] = null;
 	final private int BLACK = 2;
 	final private int WHITE = 1;
+	
+	
 	public GameBoard(int size)
 	{
 		boardSize = size;
@@ -26,7 +31,32 @@ public class GameBoard implements Board {
 		tiles[boardSize/2][boardSize/2-1].contents=BLACK;
 		tiles[boardSize/2-1][boardSize/2-1].contents=WHITE;
 		tiles[boardSize/2][boardSize/2].contents=WHITE;
+		scoreBlack = 2;
+		scoreWhite = 2;
 	}
+	
+    public GameBoard(Parcel in) {
+    	boardSize = in.readInt();
+    	tiles = new Cell[boardSize][boardSize];
+		for (int i=0;i<boardSize;i++) {
+			for (int j=0;j<boardSize;j++) {
+				tiles[i][j] = new Cell(i, j);
+				tiles[i][j].contents = in.readInt(); // it might be more correct to write and read entire arrays but i;m not sure how to test it
+			}
+		}
+		calculateScore();
+	}
+
+	public static final Parcelable.Creator<GameBoard> CREATOR
+    	= new Parcelable.Creator<GameBoard>() {
+    		public GameBoard createFromParcel(Parcel in) {
+    			return new GameBoard(in);
+    			}
+    		public GameBoard[] newArray(int size) {
+    			return null; // i think it is correct since there can only be one board
+    		}
+    };
+    
 	@Override
 	public void moveWhite(int x, int y) {
 		if(move(x,y,WHITE))
@@ -155,5 +185,20 @@ public class GameBoard implements Board {
 	private boolean move(int x,int y, int kind)
 	{
 		return true;
+	}
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		// not so sure what should be in here
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(boardSize);
+		for (Cell[] row : tiles) {
+			for(Cell cell : row) {
+				dest.writeInt(cell.contents);
+			}
+		}
 	}
 }

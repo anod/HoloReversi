@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
@@ -25,6 +26,9 @@ public class MainActivity extends SherlockActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, BoardActivity.class);
+				Spinner selector = (Spinner)findViewById(R.id.boardSizeSelector);
+				String selected = selector.getItemAtPosition(selector.getSelectedItemPosition()).toString();
+				intent.putExtra("BoardSize" ,Integer.parseInt(selected.substring(2)));
 				startActivity(intent);
 			}
 		});

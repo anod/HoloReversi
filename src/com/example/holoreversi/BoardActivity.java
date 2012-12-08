@@ -21,9 +21,10 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		setContentView(R.layout.activity_board);
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
+
+		int boardSize = getIntent().getExtras().getInt("BoardSize");
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
-		GameBoard board = new GameBoard();
+		GameBoard board = new GameBoard(boardSize);
 		BoardAdapter adapter = new BoardAdapter(board);
 		boardView.setAdapter(adapter);
 		board.addCallbackListener(this);
