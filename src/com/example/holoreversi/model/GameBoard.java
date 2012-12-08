@@ -265,7 +265,7 @@ public class GameBoard implements Board,Parcelable {
 	
 	private void updateTile(Cell cell,int kind)
 	{
-		updateTile(cell.x, cell.y, kind)
+		updateTile(cell.x, cell.y, kind);
 	}
 	private void updateTile(int x, int y,int kind)
 	{
