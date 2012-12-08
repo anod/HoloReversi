@@ -3,7 +3,7 @@ package com.example.holoreversi.model;
 public interface Board {
 
 	interface Callback {
-		void onScoreUpdate(int score);
+		void onScoreUpdate(int white, int black);
 		void onBoardUpdate(Board board);
 	}
 	
