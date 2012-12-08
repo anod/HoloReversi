@@ -198,7 +198,6 @@ public class GameBoard implements Board,Parcelable {
 		j+=checkCell(x,y, -1,-1,kind,true);
 		if (j != 0)  {
 			updateTile(x, y, kind);
-			notifyCellUpdate();
 		}
 		return j;
 	}
@@ -254,6 +253,9 @@ public class GameBoard implements Board,Parcelable {
 		int kind = currentPlayer();
 		stepChanges.clear();
 		int changed = move(cell.x,cell.y,kind);
+		if (changed == 0) {
+			return;
+		}
 		if(kind == BLACK)
 		{
 			scoreBlack += changed;
@@ -264,7 +266,8 @@ public class GameBoard implements Board,Parcelable {
 			scoreBlack -= changed;
 			scoreWhite += changed;
 		}
-		step++;		
+		step++;
+		notifyCellUpdate();
 	}
 	
 
