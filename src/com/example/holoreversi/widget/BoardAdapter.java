@@ -146,7 +146,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	}
 
 	@Override
-	public void onBoardUpdate(Board board, Cell cell, int newState) {
+	public void onBoardUpdate(Board board, Cell cell) {
 
 	}
 }

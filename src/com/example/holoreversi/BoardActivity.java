@@ -94,7 +94,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	}
 
 	@Override
-	public void onBoardUpdate(Board board, Cell cell, int newState) {
+	public void onBoardUpdate(Board board, Cell cell) {
 		// TODO Auto-generated method stub
 		
 	}
