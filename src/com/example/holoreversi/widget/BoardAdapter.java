@@ -55,7 +55,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 			for(int j=0; j<size + 2; j++) {
 				if (j == 0 || j == size+1) {
 					final TextView label = (TextView)li.inflate(R.layout.board_view_pos, null);
-					label.setText(""+i);
+					label.setText(""+(i+1));
 					tr.addView(label);
 				} else {
 					final ImageButton btn = (ImageButton)li.inflate(R.layout.board_view_btn, null);
@@ -76,6 +76,10 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 			mBoardView.addView(tr);
 		}
 
+		for(int i=1; i<=size; i++) {
+			mBoardView.setColumnStretchable(i, true);
+		}
+		
 		tr = createHintRow(size, li);
 		mBoardView.addView(tr);
 

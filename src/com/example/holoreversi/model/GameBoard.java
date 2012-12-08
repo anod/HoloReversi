@@ -35,7 +35,7 @@ public class GameBoard implements Board {
 	@Override
 	public int getSize() {
 		// TODO Auto-generated method stub
-		return 4;
+		return 8;
 	}
 
 	@Override
