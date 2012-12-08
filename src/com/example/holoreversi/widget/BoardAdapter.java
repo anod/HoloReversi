@@ -72,18 +72,24 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 
 	private void drawState(Cell cell) {
 		ImageButton btn = getImageButton(cell);
+		Cell currentCell = (Cell)btn.getTag();
+		//no need to update
+		if (currentCell.contents == cell.contents) {
+			return;
+		}
+		
 		switch (cell.contents) {
 		case Board.WHITE:
 			btn.setImageDrawable(mDrawableWhite);
-			((Cell)btn.getTag()).contents = Board.WHITE;
+			currentCell.contents = Board.WHITE;
 			break;
 		case Board.BLACK:
 			btn.setImageDrawable(mDrawableBlack);
-			((Cell)btn.getTag()).contents = Board.BLACK;
+			currentCell.contents = Board.BLACK;
 			break;
 		default:
 			btn.setImageDrawable(mDrawableEmpty);
-			((Cell)btn.getTag()).contents = Board.EMPTY;
+			currentCell.contents = Board.EMPTY;
 			break;
 		}
 	}
