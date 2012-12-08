@@ -2,7 +2,6 @@ package com.example.holoreversi.model;
 
 import java.util.ArrayList;
 
-import android.R.bool;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -206,12 +205,15 @@ public class GameBoard implements Board,Parcelable {
 	{	
 		if(step == 0)
 			return false;
+		if(stepChanges.size() == 0)
+			return false;
 		step--;
 		for (Cell cell : stepChanges) {
 			tiles[cell.x][cell.y].contents = cell.contents; 
 		}
-		notifyCellUpdate();
 		calculateScore();
+		stepChanges.clear();
+		notifyCellUpdate();
 		return true;
 	}
 	
@@ -267,7 +269,9 @@ public class GameBoard implements Board,Parcelable {
 
 	private void updateTile(int x, int y,int kind)
 	{
-		stepChanges.add(tiles[x][y]);
+		Cell temp = new Cell(x, y);
+		temp.contents = tiles[x][y].contents;
+		stepChanges.add(temp);
 		tiles[x][y].contents = kind;
 	}
 	
