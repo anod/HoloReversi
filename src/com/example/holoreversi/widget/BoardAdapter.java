@@ -159,7 +159,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	}
 
 	@Override
-	public void onBoardUpdate(Board board, Cell cell) {
+	public void onBoardUpdate(Board board) {
 		drawBoard(board.getAll(), board.getAllowedMoves());
 	}
 	

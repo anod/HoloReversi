@@ -102,7 +102,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	}
 
 	@Override
-	public void onBoardUpdate(Board board, Cell cell) {
+	public void onBoardUpdate(Board board) {
 		setPlayerView(board.currentPlayer());
 		setScoreView(board.getScoreBlack(), board.getScoreWhite());
 	}

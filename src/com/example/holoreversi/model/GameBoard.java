@@ -196,9 +196,10 @@ public class GameBoard implements Board,Parcelable {
 		j+=checkCell(x,y, -1,1,kind,true);
 		j+=checkCell(x,y, 1,-1,kind,true);
 		j+=checkCell(x,y, -1,-1,kind,true);
-		if (j != 0) 
+		if (j != 0)  {
 			updateTile(x, y, kind);
-			//tiles[x][y].contents = kind;
+			notifyCellUpdate();
+		}
 		return j;
 	}
 	public boolean undoMove(int kind)
@@ -208,8 +209,8 @@ public class GameBoard implements Board,Parcelable {
 		step--;
 		for (Cell cell : stepChanges) {
 			tiles[cell.x][cell.y].contents = cell.contents; 
-			notifyCellUpdate(cell);
 		}
+		notifyCellUpdate();
 		calculateScore();
 		return true;
 	}
@@ -266,22 +267,17 @@ public class GameBoard implements Board,Parcelable {
 		step++;		
 	}
 	
-	private void updateTile(Cell cell,int kind)
-	{
-		updateTile(cell.x, cell.y, kind);
-	}
-	
+
 	private void updateTile(int x, int y,int kind)
 	{
 		stepChanges.add(tiles[x][y]);
 		tiles[x][y].contents = kind;
-		notifyCellUpdate(tiles[x][y]);
 	}
 	
-	private void notifyCellUpdate(Cell cell)
+	private void notifyCellUpdate()
 	{
 		for (Callback callback : listenrs) {
-			callback.onBoardUpdate(this, cell);
+			callback.onBoardUpdate(this);
 		}
 	}
 }

@@ -8,7 +8,7 @@ public interface Board {
 	final public static int EMPTY = 0;
 	
 	interface Callback {
-		void onBoardUpdate(Board board, Cell cell);
+		void onBoardUpdate(Board board);
 	}
 
 	int currentPlayer();
