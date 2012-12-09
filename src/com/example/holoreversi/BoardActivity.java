@@ -52,10 +52,10 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
 		}
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
-		setupWidgets();
-		
 		BoardAdapter adapter = new BoardAdapter(mBoard);
 		boardView.setAdapter(adapter);
+
+		setupWidgets();
 		mBoard.addCallbackListener(this);
 		
 		setScoreView(mBoard.getScoreBlack(),mBoard.getScoreWhite());
@@ -75,6 +75,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 				mBoard.undoMove();
 			}
 		});
+		mUndoButton.setEnabled(mBoard.hasUndo());
 		final boolean hasActionBar = getResources().getBoolean(R.bool.board_has_actionbar);
 		final Button startButtonCompat = (Button)findViewById(R.id.buttonStartCompat);
 		if (hasActionBar) {
@@ -90,8 +91,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	}
 
 	private void restartGame() {
-		// TODO Auto-generated method stub
-		
+		mBoard.resetBoard();
 	}
 	
 	private void setPlayerView(int currentPlayer) {
@@ -141,8 +141,14 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	public void onBoardUpdate(Board board) {
 		setPlayerView(board.currentPlayer());
 		setScoreView(board.getScoreBlack(), board.getScoreWhite());
-		if(board.isGameEnded())
+		if (board.hasUndo()) {
+			mUndoButton.setEnabled(true);
+		} else {
+			mUndoButton.setEnabled(false);
+		}
+		if(board.isGameEnded()) {
 			showFinishDialog();
+		}
 		// TODO end the game and return to main activity
 	}
 

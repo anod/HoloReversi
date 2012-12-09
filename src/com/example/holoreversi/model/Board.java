@@ -11,6 +11,8 @@ public interface Board {
 		void onBoardUpdate(Board board);
 	}
 
+	void resetBoard();
+	boolean hasUndo();
 	int currentPlayer();
 	int getSize();
 	int getScoreWhite();

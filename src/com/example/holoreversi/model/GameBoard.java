@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-//import com.example.holoreversiEngine.move;
-//import com.example.holoreversiEngine.Board.TKind;
-
 public class GameBoard implements Board,Parcelable {
 
 	private int scoreWhite;
@@ -24,7 +21,7 @@ public class GameBoard implements Board,Parcelable {
 		stepChanges = new ArrayList<Cell>();
 		listenrs = new ArrayList<Board.Callback>();
 		boardSize = size;
-		resetBoard();
+		resetBoardInternal(false);
 	}
 	
     public GameBoard(Parcel in) {
@@ -60,8 +57,27 @@ public class GameBoard implements Board,Parcelable {
     			return null; // i think it is correct since there can only be one board
     		}
     };
+    
+
+	@Override
+	public boolean hasUndo() {
+		if(step == 0)
+			return false;
+		if(stepChanges.size() == 0)
+			return false;
+		return true;
+	}
+	
+	
+	@Override
     public void resetBoard()
     {
+		resetBoardInternal(true);
+    }
+	
+	
+    
+	private void resetBoardInternal(boolean notify) {
 		stepChanges.clear();
     	tiles = new Cell[boardSize][boardSize];
 		for (int i=0;i<boardSize;i++) {
@@ -75,7 +91,11 @@ public class GameBoard implements Board,Parcelable {
 		tiles[boardSize/2][boardSize/2].contents=WHITE;
 		calculateScore();
 		step = 0;
-    }
+		if (notify) {
+			notifyCellUpdate();
+		}
+	}
+
 	private void calculateScore() {
 		scoreBlack = 0;
 		scoreWhite = 0;
@@ -203,10 +223,9 @@ public class GameBoard implements Board,Parcelable {
 	
 	public boolean undoMove()
 	{	
-		if(step == 0)
+		if (!hasUndo()) {
 			return false;
-		if(stepChanges.size() == 0)
-			return false;
+		}
 		step--;
 		for (Cell cell : stepChanges) {
 			tiles[cell.x][cell.y].contents = cell.contents; 
@@ -219,7 +238,6 @@ public class GameBoard implements Board,Parcelable {
 	
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		// not so sure what should be in here
 		return 0;
 	}
@@ -308,4 +326,5 @@ public class GameBoard implements Board,Parcelable {
 		}
 		return EMPTY;
 	}
+
 }
