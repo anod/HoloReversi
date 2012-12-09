@@ -71,7 +71,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:contentDescription="@string/menu_title"
-                android:entries="@array/board_sizes"
+                android:entries="@array/board_sizes_titles"
                 android:gravity="center"
                 android:prompt="@string/menu_title" />
 

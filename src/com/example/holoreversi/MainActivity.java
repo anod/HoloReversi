@@ -10,10 +10,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.example.holoreversi.model.GamePreferences;
 
 public class MainActivity extends SherlockActivity {
 
 	private Context mContext;
+	private GamePreferences mGamePrefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,15 +23,27 @@ public class MainActivity extends SherlockActivity {
 		setContentView(R.layout.activity_main);
 
 		mContext = (Context)this;
+		mGamePrefs = new GamePreferences(this);
+		
+		final Spinner selector = (Spinner)findViewById(R.id.boardSizeSelector);
+		final String[] boardValues = getResources().getStringArray(R.array.board_sizes_values);
+		String savedSize = mGamePrefs.loadBoardSize();
+		for (int i=0; i<boardValues.length; i++) {
+			if (savedSize.equals(boardValues[i])) {
+				selector.setSelection(i);
+				break;
+			}
+		}
 		
 		Button start = (Button)findViewById(R.id.buttonStart);
 		start.setOnClickListener( new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, BoardActivity.class);
-				Spinner selector = (Spinner)findViewById(R.id.boardSizeSelector);
-				String selected = selector.getItemAtPosition(selector.getSelectedItemPosition()).toString();
-				intent.putExtra(BoardActivity.EXTRA_BOARD_SIZE ,Integer.parseInt(selected.substring(2)));
+				
+				String selected = boardValues[selector.getSelectedItemPosition()];
+				mGamePrefs.saveBoardSize(selected);
+				intent.putExtra(BoardActivity.EXTRA_BOARD_SIZE ,Integer.parseInt(selected));
 				startActivity(intent);
 			}
 		});
