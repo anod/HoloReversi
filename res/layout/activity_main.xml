@@ -14,26 +14,47 @@
         android:text="@string/app_name"
         android:textSize="36sp"
         android:textStyle="bold|italic" />
-
-    <Spinner
-        android:id="@+id/boardSizeSelector"
-        android:layout_width="wrap_content"
+	
+	<LinearLayout
+        android:id="@+id/selectorLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_below="@+id/Headline"
-        android:layout_marginTop="40dp"
-        android:contentDescription="@string/menu_title"
-        android:layout_centerHorizontal="true"
-        android:prompt="@string/menu_title"
-        android:entries="@array/board_sizes"
-        />
+        android:layout_marginTop="100dp"
+        >
 
+        <TextView
+            android:id="@+id/labelSelector"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" 
+            android:text="@string/menu_title"
+            />
 
-    <Button
-        android:id="@+id/buttonStart"
-        android:layout_width="wrap_content"
+	    <Spinner
+	    android:id="@+id/boardSizeSelector"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/boardSizeSelector"
-        android:layout_centerHorizontal="true"
-        android:text="@string/start_game" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+	    android:contentDescription="@string/menu_title"
+	    android:entries="@array/board_sizes"
+	    android:prompt="@string/menu_title" />
+	    
+	</LinearLayout>
+
+	<Button
+	    android:id="@+id/buttonStart"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginBottom="30dp"
+	    android:text="@string/start_game" />
+
 
 </RelativeLayout>

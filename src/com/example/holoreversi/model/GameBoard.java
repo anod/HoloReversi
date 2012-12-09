@@ -253,6 +253,8 @@ public class GameBoard implements Board,Parcelable {
 
 	@Override
 	public void move(Cell cell) {
+		if(cell.contents != EMPTY)
+			return;
 		int kind = currentPlayer();
 		stepChanges.clear();
 		int changed = move(cell.x,cell.y,kind);
