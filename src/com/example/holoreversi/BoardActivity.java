@@ -30,6 +30,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	private ImageButton mPlayerWhite;
 	private ImageButton mPlayerBlack;
 	private GameBoard mBoard;
+	private Button mUndoButton;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,8 +54,8 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		mScoreBlack = (TextView)findViewById(R.id.scoreBlack);
 		mPlayerWhite = (ImageButton)findViewById(R.id.playerWhite);
 		mPlayerBlack = (ImageButton)findViewById(R.id.playerBlack);
-		Button undo = (Button)findViewById(R.id.buttonUndo);
-		undo.setOnClickListener(new OnClickListener() {
+		mUndoButton = (Button)findViewById(R.id.buttonUndo);
+		mUndoButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mBoard.undoMove();

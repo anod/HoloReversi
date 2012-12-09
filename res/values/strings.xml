@@ -22,5 +22,6 @@
     <string name="scoreBlack"> Blue: </string>
     <string name="scoreWhite"> White: </string>
     <string name="how_to_play">How to play?</string>
+    <string name="menu_newgame">New Game</string>
 
 </resources>

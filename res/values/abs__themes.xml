@@ -70,5 +70,8 @@
         <item name="windowContentOverlay">@null</item>
     </style>
 
-
+	<style name="Theme.Sherlock.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

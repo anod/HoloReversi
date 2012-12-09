@@ -56,4 +56,13 @@
         <item name="android:spinnerItemStyle">@style/Holo.Spinner.Item</item>
         <item name="android:spinnerStyle">@style/Holo.Spinner</item>
     </style>
+    
+    <style name="Holo.Theme.NoActionBar" parent="Theme.Sherlock.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_holo_dark</item>
+        <item name="android:buttonStyle">@style/Holo.Button</item>
+        <item name="android:imageButtonStyle">@style/Holo.ImageButton</item>
+        <item name="spinnerStyle">@style/Holo.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/Holo.Spinner.Item</item>
+        <item name="android:spinnerStyle">@style/Holo.Spinner</item>
+    </style>
 </resources>
