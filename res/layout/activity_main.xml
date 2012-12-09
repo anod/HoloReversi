@@ -16,22 +16,22 @@
         android:textStyle="bold|italic" />
 	
 	<LinearLayout
-        android:id="@+id/selectorLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_below="@+id/Headline"
-        android:layout_marginTop="100dp"
-        >
+	    android:id="@+id/selectorLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_below="@+id/Headline"
+	    android:layout_marginTop="100dp"
+	    android:gravity="center" >
 
-        <TextView
-            android:id="@+id/labelSelector"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center" 
-            android:text="@string/menu_title"
-            />
+		<TextView
+		    android:id="@+id/labelSelector"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:gravity="center"
+		    android:text="@string/menu_title"
+		    android:textAppearance="?android:attr/textAppearanceMedium" />
 
 	    <Spinner
 	    android:id="@+id/boardSizeSelector"
@@ -51,10 +51,20 @@
 	    android:id="@+id/buttonStart"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_alignParentBottom="true"
+	    android:layout_below="@+id/selectorLayout"
 	    android:layout_centerHorizontal="true"
-	    android:layout_marginBottom="30dp"
+	    android:layout_marginTop="44dp"
+	    android:minWidth="140dp"
 	    android:text="@string/start_game" />
 
+	<Button
+	    android:id="@+id/buttonHowTo"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/buttonStart"
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginTop="38dp"
+	    android:minWidth="140dp"
+	    android:text="@string/how_to_play" />
 
 </RelativeLayout>

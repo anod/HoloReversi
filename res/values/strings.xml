@@ -21,5 +21,6 @@
     <string name="tie">Its a TIE nobody won</string>
     <string name="scoreBlack"> Blue: </string>
     <string name="scoreWhite"> White: </string>
+    <string name="how_to_play">How to play?</string>
 
 </resources>
