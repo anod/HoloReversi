@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cell_size_4">66dp</dimen>
+    <dimen name="cell_size_6">42dp</dimen>
+    <dimen name="cell_size_8">32dp</dimen>
+	<bool name="board_has_actionbar">false</bool>
+</resources>

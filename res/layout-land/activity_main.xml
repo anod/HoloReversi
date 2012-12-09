@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/Headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/abs__ab_transparent_dark_holo"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="36sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textStyle="bold|italic" />
+
+    <LinearLayout
+        android:id="@+id/selectorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Headline"
+        android:layout_marginTop="46dp"
+        android:minWidth="240dp"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/leftColumnt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:id="@+id/labelSelector"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="@string/menu_title"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <Button
+                android:id="@+id/buttonHowTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawableLeft="@drawable/ic_action_info"
+                android:minWidth="160dp"
+                android:text="@string/how_to_play" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rightColumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:orientation="vertical" >
+
+            <Spinner
+                android:id="@+id/boardSizeSelector"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:contentDescription="@string/menu_title"
+                android:entries="@array/board_sizes"
+                android:gravity="center"
+                android:prompt="@string/menu_title" />
+
+            <Button
+                android:id="@+id/buttonStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:drawableLeft="@drawable/ic_action_playback_play"
+                android:minWidth="160dp"
+                android:text="@string/start_game" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

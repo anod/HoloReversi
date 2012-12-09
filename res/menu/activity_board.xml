@@ -4,6 +4,6 @@
         android:id="@+id/menu_newgame"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="@string/menu_newgame"/>
+        android:title="@string/menu_newgame" android:icon="@drawable/ic_action_reload"/>
 
 </menu>

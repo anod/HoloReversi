@@ -36,8 +36,10 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_board);
 		// Show the Up button in the action bar.
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+		if (getSupportActionBar()!=null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		
 		if (savedInstanceState == null) {
 			int boardSize = getIntent().getIntExtra(EXTRA_BOARD_SIZE, 0);
 			if (boardSize == 0) {
@@ -50,6 +52,18 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
 		}
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
+		setupWidgets();
+		
+		BoardAdapter adapter = new BoardAdapter(mBoard);
+		boardView.setAdapter(adapter);
+		mBoard.addCallbackListener(this);
+		
+		setScoreView(mBoard.getScoreBlack(),mBoard.getScoreWhite());
+		setPlayerView(mBoard.currentPlayer());
+		
+	}
+
+	private void setupWidgets() {
 		mScoreWhite = (TextView)findViewById(R.id.scoreWhite);
 		mScoreBlack = (TextView)findViewById(R.id.scoreBlack);
 		mPlayerWhite = (ImageButton)findViewById(R.id.playerWhite);
@@ -61,16 +75,25 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 				mBoard.undoMove();
 			}
 		});
-		
-		BoardAdapter adapter = new BoardAdapter(mBoard);
-		boardView.setAdapter(adapter);
-		mBoard.addCallbackListener(this);
-		
-		setScoreView(mBoard.getScoreBlack(),mBoard.getScoreWhite());
-		setPlayerView(mBoard.currentPlayer());
-		
+		final boolean hasActionBar = getResources().getBoolean(R.bool.board_has_actionbar);
+		final Button startButtonCompat = (Button)findViewById(R.id.buttonStartCompat);
+		if (hasActionBar) {
+			startButtonCompat.setVisibility(View.GONE);
+		} else {
+			startButtonCompat.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					restartGame();
+				}
+			});
+		}
 	}
 
+	private void restartGame() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private void setPlayerView(int currentPlayer) {
 		if (currentPlayer == Board.BLACK) {
 			mPlayerBlack.setEnabled(true);
@@ -106,6 +129,9 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
 			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.menu_newgame:
+			restartGame();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

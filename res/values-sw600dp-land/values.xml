@@ -4,5 +4,5 @@
     <dimen name="cell_size_6">50dp</dimen>
     <dimen name="cell_size_8">38dp</dimen>
 	<bool name="board_has_actionbar">true</bool>
-    
+
 </resources>

@@ -3,4 +3,7 @@
     <style name="BoardButton" parent="Holo.ImageButton">
         <item name="android:background">@drawable/btn_board</item>
      </style>
+     
+    
+    <style name="BoardTheme" parent="Holo.Theme" />
 </resources>

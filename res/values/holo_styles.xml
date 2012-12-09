@@ -65,4 +65,5 @@
         <item name="android:spinnerItemStyle">@style/Holo.Spinner.Item</item>
         <item name="android:spinnerStyle">@style/Holo.Spinner</item>
     </style>
+
 </resources>
