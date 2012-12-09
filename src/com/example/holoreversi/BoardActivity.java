@@ -171,8 +171,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 			.setOnCancelListener(new OnCancelListener() {
 				@Override
 				public void onCancel(DialogInterface dialog) {
-					// TODO Auto-generated method stub
-					//Restart game
+					restartGame();
 				}
 			})
 			.create()
