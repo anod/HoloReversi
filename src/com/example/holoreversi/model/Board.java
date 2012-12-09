@@ -18,7 +18,7 @@ public interface Board {
 	int getScoreWhite();
 	int getScoreBlack();
 	Cell[][] getAll();
-	void move(Cell cell);
+	boolean move(Cell cell);
 	ArrayList<Cell> getAllowedMoves();
 	void addCallbackListener(Callback callback);
 	boolean undoMove();

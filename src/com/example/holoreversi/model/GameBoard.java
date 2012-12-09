@@ -274,21 +274,22 @@ public class GameBoard implements Board,Parcelable {
 	}
 
 	@Override
-	public void move(Cell cell) {
+	public boolean move(Cell cell) {
 		if(cell.contents != EMPTY)
-			return;
+			return false;
 		int kind = currentPlayer();
 		stepChanges.clear();
 		int changed = move(cell.x,cell.y,kind);
 		if (changed == 0) {
-			return;
+			return false;
 		}
 		calculateScore();
 		step++;
-		if(getAllowedMoves().size() == 0)
+		if(getAllowedMoves().size() == 0) {
 			step++;
-		
+		}
 		notifyCellUpdate();
+		return true;
 	}
 	
 

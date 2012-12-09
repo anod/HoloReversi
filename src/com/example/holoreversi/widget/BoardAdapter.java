@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	private Drawable mDrawableBlack;
 	private Drawable mDrawableEmpty;
 	private Drawable mDrawableAllowed;
+	private Animation mCellAnim;
 	
 	public BoardAdapter(Board board) {
 		mBoard = board;
@@ -42,6 +45,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		initDrawables();
 		
 		initBoardView(mBoard.getSize());
+		mCellAnim = AnimationUtils.loadAnimation(mContext, R.anim.board_cell);
 		drawBoard(mBoard.getAll(), mBoard.getAllowedMoves());
 	}
 
@@ -151,7 +155,9 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	@Override
 	public void onClick(View v) {
 		Cell cell = (Cell)v.getTag();
-		mBoard.move(cell);
+		if (mBoard.move(cell)) {
+			v.startAnimation(mCellAnim);
+		}
 	}
 
 	private TableRow createHintRow(int size, LayoutInflater li) {
