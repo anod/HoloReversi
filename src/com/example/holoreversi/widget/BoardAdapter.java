@@ -2,10 +2,7 @@ package com.example.holoreversi.widget;
 
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -110,31 +107,44 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		tr = createHintRow(size, li);
 		mBoardView.addView(tr);
 		
+		int minSize = getMinCellSize(size);
+		
 		for(int i=0; i<size; i++) {
 			tr = (TableRow)li.inflate(R.layout.board_row, null);
 			for(int j=0; j<size + 2; j++) {
 				if (j == 0 || j == size+1) {
 					final TextView label = (TextView)li.inflate(R.layout.board_view_pos, null);
 					label.setText(""+(i+1));
+					label.setMinimumHeight(minSize);
 					tr.addView(label);
 				} else {
 					final ImageButton btn = (ImageButton)li.inflate(R.layout.board_view_btn, null);
 					btn.setTag(new Cell(j-1, i));
 					btn.setOnClickListener(this);
+					btn.setMinimumHeight(minSize);
+					btn.setMinimumWidth(minSize);
 					tr.addView(btn);
 				}
 			}
 			mBoardView.addView(tr);
 		}
 
-		for(int i=1; i<=size; i++) {
-			mBoardView.setColumnStretchable(i, true);
-		}
-		
 		tr = createHintRow(size, li);
 		mBoardView.addView(tr);
 
 		
+	}
+
+	private int getMinCellSize(int size) {
+		int minSize = 0;
+		if (size == 4) {
+			minSize = mContext.getResources().getDimensionPixelSize(R.dimen.cell_size_4);
+		} else if (size == 6) {
+			minSize = mContext.getResources().getDimensionPixelSize(R.dimen.cell_size_6);
+		} else if (size == 8) {
+			minSize = mContext.getResources().getDimensionPixelSize(R.dimen.cell_size_8);
+		}
+		return minSize;
 	}
 	
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cell_size_4">84dp</dimen>
+    <dimen name="cell_size_6">56dp</dimen>
+    <dimen name="cell_size_8">42dp</dimen>
+
+</resources>
