@@ -17,9 +17,13 @@ import android.widget.TextView;
 import com.example.holoreversi.R;
 import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.Cell;
+import com.example.holoreversi.model.DSsqlite;
+import com.example.holoreversi.model.DataStore;
 
 public class BoardAdapter implements Board.Callback, OnClickListener  {
 	final private Board mBoard;
+	private DataStore mDS;
+	private long mCurrentGame; 
 	private Context mContext;
 	private BoardView mBoardView;
 	private Drawable mDrawableWhite;
@@ -35,6 +39,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 
 	public void setContext(Context context) {
 		mContext = context;
+		mDS = new DSsqlite(mContext);
 	}
 
 	public void setBoardView(BoardView boardView) {
@@ -47,6 +52,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		initBoardView(mBoard.getSize());
 		mCellAnim = AnimationUtils.loadAnimation(mContext, R.anim.board_cell);
 		drawBoard(mBoard.getAll(), mBoard.getAllowedMoves());
+		mCurrentGame = mDS.insertGame();
 	}
 
 	private void initDrawables() {
@@ -156,6 +162,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	public void onClick(View v) {
 		Cell cell = (Cell)v.getTag();
 		if (mBoard.move(cell)) {
+			mDS.insertMove(mCurrentGame, cell);
 			v.startAnimation(mCellAnim);
 		}
 	}

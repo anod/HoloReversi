@@ -1,13 +1,9 @@
 package com.example.holoreversi.model;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 public class GameBoard implements Board,Parcelable {
 
@@ -95,6 +91,7 @@ public class GameBoard implements Board,Parcelable {
 		tiles[boardSize/2][boardSize/2].contents=WHITE;
 		calculateScore();
 		step = 0;
+
 		if (notify) {
 			notifyCellUpdate();
 		}
