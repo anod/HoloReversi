@@ -1,6 +1,7 @@
 package com.example.holoreversi.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -201,7 +202,7 @@ public class GameBoard implements Board,Parcelable {
 		if (checkCell(cell.x,cell.y,-1,-1,kind,false) != 0) return true;
 		return false;
 	}
-	private int move(int x,int y, int kind)
+	private int move(int x,int y, int kind,boolean actual)
 	{
 		// check increasing x
 		int j=checkCell(x,y, 1,0,kind,true);
@@ -216,7 +217,7 @@ public class GameBoard implements Board,Parcelable {
 		j+=checkCell(x,y, -1,1,kind,true);
 		j+=checkCell(x,y, 1,-1,kind,true);
 		j+=checkCell(x,y, -1,-1,kind,true);
-		if (j != 0)  {
+		if (j != 0 && actual)  {
 			updateTile(x, y, kind);
 		}
 		return j;
@@ -276,7 +277,7 @@ public class GameBoard implements Board,Parcelable {
 			return false;
 		int kind = currentPlayer();
 		stepChanges.clear();
-		int changed = move(cell.x,cell.y,kind);
+		int changed = move(cell.x,cell.y,kind,true);
 		if (changed == 0) {
 			return false;
 		}
@@ -328,5 +329,23 @@ public class GameBoard implements Board,Parcelable {
 		}
 		return EMPTY;
 	}
+
+	// this is a very simplistic computer player without any thinking whatsoever
+	@Override
+	public Cell Play() {
+		Cell ret = new Cell(0, 0);
+		ArrayList<Cell> allowd = getAllowedMoves();
+		int min = 0;
+		for (Cell cell : allowd) {
+			int temp = move(cell.x, cell.y, currentPlayer(), false);
+			if(temp > min) {
+				min = temp;
+				ret.x = cell.x;
+				ret.y = cell.y;
+			}
+		}
+		return ret;
+	}
+	
 
 }

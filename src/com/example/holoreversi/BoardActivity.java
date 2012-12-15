@@ -16,6 +16,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.holoreversi.model.Board;
+import com.example.holoreversi.model.Cell;
 import com.example.holoreversi.model.GameBoard;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
@@ -25,6 +26,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	
 	private static final String STATE_BOARD = "state_board";
 	public static final String EXTRA_BOARD_SIZE = "BoardSize";
+	public static final String EXTRA_COMPUTER_PLAYER = "ComputerPlayer";
 	private TextView mScoreWhite;
 	private TextView mScoreBlack;
 	private ImageButton mPlayerWhite;
@@ -51,8 +53,9 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		} else {
 			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
 		}
+		int ComputerPlayer = getIntent().getIntExtra(EXTRA_COMPUTER_PLAYER, 0);
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
-		BoardAdapter adapter = new BoardAdapter(mBoard);
+		BoardAdapter adapter = new BoardAdapter(mBoard,ComputerPlayer);
 		boardView.setAdapter(adapter);
 
 		setupWidgets();

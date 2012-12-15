@@ -35,7 +35,7 @@ public class MainActivity extends SherlockActivity {
 			}
 		}
 		
-		Button start = (Button)findViewById(R.id.buttonStart);
+		Button start = (Button)findViewById(R.id.button2Player);
 		start.setOnClickListener( new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -44,6 +44,20 @@ public class MainActivity extends SherlockActivity {
 				String selected = boardValues[selector.getSelectedItemPosition()];
 				mGamePrefs.saveBoardSize(selected);
 				intent.putExtra(BoardActivity.EXTRA_BOARD_SIZE ,Integer.parseInt(selected));
+				intent.putExtra(BoardActivity.EXTRA_COMPUTER_PLAYER, 0);
+				startActivity(intent);
+			}
+		});
+		Button single = (Button)findViewById(R.id.button1Player);
+		single.setOnClickListener( new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, BoardActivity.class);
+				
+				String selected = boardValues[selector.getSelectedItemPosition()];
+				mGamePrefs.saveBoardSize(selected);
+				intent.putExtra(BoardActivity.EXTRA_BOARD_SIZE ,Integer.parseInt(selected));
+				intent.putExtra(BoardActivity.EXTRA_COMPUTER_PLAYER, 1);
 				startActivity(intent);
 			}
 		});

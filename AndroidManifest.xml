@@ -26,10 +26,14 @@
         <activity
             android:name="com.example.holoreversi.BoardActivity"
             android:label="@string/app_name"
-            android:theme="@style/BoardTheme"  >
+            android:theme="@style/BoardTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.holoreversi.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.holoreversi.HistoryActivity"
+            android:label="@string/title_activity_history" >
         </activity>
     </application>
 
