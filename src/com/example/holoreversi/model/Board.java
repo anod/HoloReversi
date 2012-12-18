@@ -8,6 +8,7 @@ public interface Board {
 	final public static int EMPTY = 0;
 	
 	interface Callback {
+		void onNextPlayer(int nextPlayer);
 		void onBoardUpdate(Board board);
 	}
 
@@ -24,6 +25,5 @@ public interface Board {
 	boolean undoMove();
 	int winner();
 	boolean isGameEnded();
-	Cell Play(); 
-	
+	int checkNextMove(Cell cell);
 }

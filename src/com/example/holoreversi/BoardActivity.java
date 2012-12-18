@@ -16,7 +16,6 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.holoreversi.model.Board;
-import com.example.holoreversi.model.Cell;
 import com.example.holoreversi.model.GameBoard;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
@@ -53,9 +52,9 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		} else {
 			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
 		}
-		int ComputerPlayer = getIntent().getIntExtra(EXTRA_COMPUTER_PLAYER, 0);
+		boolean isComputerPlayer = getIntent().getBooleanExtra(EXTRA_COMPUTER_PLAYER, false);
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
-		BoardAdapter adapter = new BoardAdapter(mBoard,ComputerPlayer);
+		BoardAdapter adapter = new BoardAdapter(mBoard, isComputerPlayer);
 		boardView.setAdapter(adapter);
 
 		setupWidgets();
@@ -186,6 +185,12 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putParcelable(STATE_BOARD, mBoard);
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onNextPlayer(int nextPlayer) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

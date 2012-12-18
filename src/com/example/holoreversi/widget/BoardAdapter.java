@@ -15,10 +15,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.holoreversi.R;
+import com.example.holoreversi.model.AIPlayer;
 import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.Cell;
 import com.example.holoreversi.model.DSsqlite;
 import com.example.holoreversi.model.DataStore;
+import com.example.holoreversi.model.HumanPlayer;
+import com.example.holoreversi.model.Player;
 
 public class BoardAdapter implements Board.Callback, OnClickListener  {
 	final private Board mBoard;
@@ -30,11 +33,19 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	private Drawable mDrawableBlack;
 	private Drawable mDrawableEmpty;
 	private Drawable mDrawableAllowed;
-	private Animation mCellAnim;
-	
-	public BoardAdapter(Board board) {
+	private Animation mCellAnim1;
+	private Animation mCellAnim2;
+	private Player mSecondPlayer;
+	public BoardAdapter(Board board, boolean isComputerPlayer) {
 		mBoard = board;
 		mBoard.addCallbackListener(this);
+		
+		if (isComputerPlayer) {
+			mSecondPlayer = new AIPlayer(board);
+		} else {
+			mSecondPlayer = new HumanPlayer();
+		}
+		
 	}
 
 	public void setContext(Context context) {
@@ -50,7 +61,8 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		initDrawables();
 		
 		initBoardView(mBoard.getSize());
-		mCellAnim = AnimationUtils.loadAnimation(mContext, R.anim.board_cell);
+		mCellAnim1 = AnimationUtils.loadAnimation(mContext, R.anim.board_cell);
+		mCellAnim2 = AnimationUtils.loadAnimation(mContext, R.anim.board_cell);
 		drawBoard(mBoard.getAll(), mBoard.getAllowedMoves());
 		mCurrentGame = mDS.insertGame();
 	}
@@ -163,7 +175,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		Cell cell = (Cell)v.getTag();
 		if (mBoard.move(cell)) {
 			mDS.insertMove(mCurrentGame, cell);
-			v.startAnimation(mCellAnim);
+			v.startAnimation(mCellAnim1);
 		}
 	}
 
@@ -184,6 +196,17 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	@Override
 	public void onBoardUpdate(Board board) {
 		drawBoard(board.getAll(), board.getAllowedMoves());
+	}
+
+	@Override
+	public void onNextPlayer(int nextPlayer) {
+		if (nextPlayer == Board.WHITE) {
+			Cell cell = mSecondPlayer.play();
+			if (cell != null) {
+				ImageButton btn = getImageButton(cell);
+				btn.startAnimation(mCellAnim2);
+			}
+		}
 	}
 	
 }

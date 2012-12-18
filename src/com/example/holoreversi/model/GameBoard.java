@@ -1,7 +1,6 @@
 package com.example.holoreversi.model;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -169,7 +168,11 @@ public class GameBoard implements Board,Parcelable {
 	private int checkCell(int x,int y, int incx, int incy, int kind , boolean set)  {
 		// totally based with limited understanding on reversi.java.net
 		int opponent;
-		if (kind == BLACK) opponent=WHITE; else opponent=BLACK;
+		if (kind == BLACK) {
+			opponent=WHITE;
+		} else {
+			opponent=BLACK;
+		}
 		int n_inc=0;
 		x+=incx; y+=incy;
 		while ((x<boardSize) && (x>=0) && (y<boardSize) && (y>=0) && (tiles[x][y].contents==opponent)) {
@@ -177,14 +180,15 @@ public class GameBoard implements Board,Parcelable {
 			n_inc++;
 		}
 		if ((n_inc != 0) && (x<boardSize) && (x>=0) && (y<boardSize) && (y>=0) && (tiles[x][y].contents==kind)) {
-			 if (set)
-			 for (int j = 1 ; j <= n_inc ; j++) {
-				x-=incx; y-=incy;
-				updateTile(x, y,kind);
+			 if (set) {
+				 for (int j = 1 ; j <= n_inc ; j++) {
+					x-=incx; y-=incy;
+					updateTile(x, y,kind);
+				 }
 			 }
 			return n_inc;
 		}
-		else return 0;
+		return 0;
 	}
 	private boolean isValid(Cell cell, int kind) {
 		// check increasing x 
@@ -202,23 +206,44 @@ public class GameBoard implements Board,Parcelable {
 		if (checkCell(cell.x,cell.y,-1,-1,kind,false) != 0) return true;
 		return false;
 	}
-	private int move(int x,int y, int kind,boolean actual)
-	{
+
+	/**
+	 * 
+	 * @param cell
+	 * @return number of changed tiles
+	 */
+	@Override
+	public int checkNextMove(Cell cell) {
+		return checkNextMove(cell, false);
+	}
+	
+	private int checkNextMove(Cell cell, boolean change) {
+		int kind = currentPlayer();
+		int x = cell.x;
+		int y = cell.y;
 		// check increasing x
-		int j=checkCell(x,y, 1,0,kind,true);
+		int j=checkCell(x,y, 1,0,kind,change);
 		// check decreasing x
-		j+=checkCell(x,y, -1,0,kind,true);
+		j+=checkCell(x,y, -1,0,kind,change);
 		// check increasing y
-		j+=checkCell(x,y, 0,1,kind,true);
+		j+=checkCell(x,y, 0,1,kind,change);
 		// check decreasing y
-		j+=checkCell(x,y, 0,-1,kind,true);
+		j+=checkCell(x,y, 0,-1,kind,change);
 		// check diagonals
-		j+=checkCell(x,y, 1,1,kind,true);
-		j+=checkCell(x,y, -1,1,kind,true);
-		j+=checkCell(x,y, 1,-1,kind,true);
-		j+=checkCell(x,y, -1,-1,kind,true);
-		if (j != 0 && actual)  {
-			updateTile(x, y, kind);
+		j+=checkCell(x,y, 1,1,kind,change);
+		j+=checkCell(x,y, -1,1,kind,change);
+		j+=checkCell(x,y, 1,-1,kind,change);
+		j+=checkCell(x,y, -1,-1,kind,change);
+		return j;
+	}
+	
+	
+	private int doMove(Cell cell)
+	{
+		int j = checkNextMove(cell, true);
+		if (j != 0)  {
+			int kind = currentPlayer();
+			updateTile(cell.x, cell.y, kind);
 		}
 		return j;
 	}
@@ -275,9 +300,8 @@ public class GameBoard implements Board,Parcelable {
 	public boolean move(Cell cell) {
 		if(cell.contents != EMPTY)
 			return false;
-		int kind = currentPlayer();
 		stepChanges.clear();
-		int changed = move(cell.x,cell.y,kind,true);
+		int changed = doMove(cell);
 		if (changed == 0) {
 			return false;
 		}
@@ -287,6 +311,7 @@ public class GameBoard implements Board,Parcelable {
 			step++;
 		}
 		notifyCellUpdate();
+		notifyNextPlayer();
 		return true;
 	}
 	
@@ -305,6 +330,13 @@ public class GameBoard implements Board,Parcelable {
 			callback.onBoardUpdate(this);
 		}
 	}
+	private void notifyNextPlayer() {
+		int nextPlayer = currentPlayer();
+		for (Callback callback : listenrs) {
+			callback.onNextPlayer(nextPlayer);
+		}
+	}
+	
 	@Override
 	public boolean isGameEnded()
 	{
@@ -328,23 +360,6 @@ public class GameBoard implements Board,Parcelable {
 			return WHITE;
 		}
 		return EMPTY;
-	}
-
-	// this is a very simplistic computer player without any thinking whatsoever
-	@Override
-	public Cell Play() {
-		Cell ret = new Cell(0, 0);
-		ArrayList<Cell> allowd = getAllowedMoves();
-		int min = 0;
-		for (Cell cell : allowd) {
-			int temp = move(cell.x, cell.y, currentPlayer(), false);
-			if(temp > min) {
-				min = temp;
-				ret.x = cell.x;
-				ret.y = cell.y;
-			}
-		}
-		return ret;
 	}
 	
 

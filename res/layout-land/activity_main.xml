@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Headline"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="26dp"
         android:minWidth="240dp"
         android:orientation="horizontal" >
 
@@ -46,13 +46,14 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Button
-                android:id="@+id/buttonHowTo"
+                android:id="@+id/button1Player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:drawableLeft="@drawable/ic_action_info"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/ic_action_playback_play"
                 android:minWidth="160dp"
-                android:text="@string/how_to_play" />
+                android:text="@string/start_single" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,16 +76,28 @@
                 android:gravity="center"
                 android:prompt="@string/menu_title" />
 
+
             <Button
-                android:id="@+id/button1Player"
+                android:id="@+id/button2Player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:drawableLeft="@drawable/ic_action_playback_play"
                 android:minWidth="160dp"
                 android:text="@string/start_multi" />
         </LinearLayout>
     </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonHowTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/selectorLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/ic_action_info"
+                android:minWidth="160dp"
+                android:text="@string/how_to_play" />
 
 </RelativeLayout>

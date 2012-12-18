@@ -44,7 +44,7 @@ public class MainActivity extends SherlockActivity {
 				String selected = boardValues[selector.getSelectedItemPosition()];
 				mGamePrefs.saveBoardSize(selected);
 				intent.putExtra(BoardActivity.EXTRA_BOARD_SIZE ,Integer.parseInt(selected));
-				intent.putExtra(BoardActivity.EXTRA_COMPUTER_PLAYER, 0);
+				intent.putExtra(BoardActivity.EXTRA_COMPUTER_PLAYER, false);
 				startActivity(intent);
 			}
 		});
@@ -57,7 +57,7 @@ public class MainActivity extends SherlockActivity {
 				String selected = boardValues[selector.getSelectedItemPosition()];
 				mGamePrefs.saveBoardSize(selected);
 				intent.putExtra(BoardActivity.EXTRA_BOARD_SIZE ,Integer.parseInt(selected));
-				intent.putExtra(BoardActivity.EXTRA_COMPUTER_PLAYER, 1);
+				intent.putExtra(BoardActivity.EXTRA_COMPUTER_PLAYER, true);
 				startActivity(intent);
 			}
 		});

@@ -3,86 +3,87 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
-	
-	<LinearLayout
-	    android:id="@+id/ButtonLayout"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_centerHorizontal="true"
-	    android:layout_below="@+id/selectorLayout"
-	    android:layout_marginTop="15dp"
-	    android:gravity="center" >
-<Button
-	    android:id="@+id/button1Player"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:drawableLeft="@drawable/ic_action_playback_play"
-	    android:minWidth="160dp"
-	    android:text="@string/start_single" />
-<Button
-	    android:id="@+id/button2Player"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:drawableLeft="@drawable/ic_action_playback_play"
-	    android:minWidth="160dp"
-	    android:text="@string/start_multi" />
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/ButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectorLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:gravity="center" >
 
-	<Button
-	    android:id="@+id/buttonHowTo"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/ButtonLayout"
-	    android:layout_centerHorizontal="true"
-	    android:layout_marginTop="38dp"
-	    android:drawableLeft="@drawable/ic_action_info"
-	    android:minWidth="160dp"
-	    android:text="@string/how_to_play" />
+        <Button
+            android:id="@+id/button1Player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_playback_play"
+            android:minWidth="160dp"
+            android:text="@string/start_single" />
 
-	<TextView
-	    android:id="@+id/Headline"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentTop="true"
-	    android:layout_centerHorizontal="true"
-	    android:layout_marginLeft="20dp"
-	    android:layout_marginTop="75dp"
-	    android:background="@drawable/abs__ab_transparent_dark_holo"
-	    android:gravity="center"
-	    android:text="@string/app_name"
-	    android:textSize="36sp"
-	    android:textStyle="bold|italic" />
+        <Button
+            android:id="@+id/button2Player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_playback_play"
+            android:minWidth="160dp"
+            android:text="@string/start_multi" />
+    </LinearLayout>
 
-	<LinearLayout
-	    android:id="@+id/selectorLayout"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_centerHorizontal="true"
-	    android:layout_below="@+id/Headline"
-	    android:layout_marginTop="56dp"
-	    android:gravity="center" >
+    <Button
+        android:id="@+id/buttonHowTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ButtonLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:drawableLeft="@drawable/ic_action_info"
+        android:minWidth="160dp"
+        android:text="@string/how_to_play" />
 
-	    <TextView
-	        android:id="@+id/labelSelector"
-	        android:layout_width="0dp"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:gravity="center"
-	        android:text="@string/menu_title"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/Headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="75dp"
+        android:background="@drawable/abs__ab_transparent_dark_holo"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="36sp"
+        android:textStyle="bold|italic" />
 
-	    <Spinner
-	        android:id="@+id/boardSizeSelector"
-	        android:layout_width="0dp"
-	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="10dp"
-	        android:layout_marginRight="10dp"
-	        android:layout_weight="1"
-	        android:contentDescription="@string/menu_title"
-	        android:entries="@array/board_sizes_titles"
-	        android:gravity="center"
-	        android:prompt="@string/menu_title" />
-	</LinearLayout>
+    <LinearLayout
+        android:id="@+id/selectorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Headline"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/labelSelector"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/menu_title"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Spinner
+            android:id="@+id/boardSizeSelector"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/menu_title"
+            android:entries="@array/board_sizes_titles"
+            android:gravity="center"
+            android:prompt="@string/menu_title" />
+    </LinearLayout>
 
 </RelativeLayout>
