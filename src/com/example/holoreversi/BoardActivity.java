@@ -17,12 +17,16 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.GameBoard;
+import com.example.holoreversi.model.history.DataStore;
+import com.example.holoreversi.model.history.HistoryRecordBoard;
+import com.example.holoreversi.model.history.SQLiteDataStore;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
 
 public class BoardActivity extends SherlockActivity implements Board.Callback {
 	
 	
+	private static final String GAME_ID = "game_id";
 	private static final String STATE_BOARD = "state_board";
 	public static final String EXTRA_BOARD_SIZE = "BoardSize";
 	public static final String EXTRA_COMPUTER_PLAYER = "ComputerPlayer";
@@ -32,6 +36,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	private ImageButton mPlayerBlack;
 	private GameBoard mBoard;
 	private Button mUndoButton;
+	private long mGameId;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,6 +46,8 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		
+		mGameId = 0;
+		DataStore dataStore = new SQLiteDataStore(this);
 		if (savedInstanceState == null) {
 			int boardSize = getIntent().getIntExtra(EXTRA_BOARD_SIZE, 0);
 			if (boardSize == 0) {
@@ -49,12 +56,15 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 				return;
 			}
 			mBoard = new GameBoard(boardSize);
+			mGameId = dataStore.insertGame();
 		} else {
 			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
+			mGameId = savedInstanceState.getLong(GAME_ID);
 		}
 		boolean isComputerPlayer = getIntent().getBooleanExtra(EXTRA_COMPUTER_PLAYER, false);
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
-		BoardAdapter adapter = new BoardAdapter(mBoard, isComputerPlayer);
+		
+		BoardAdapter adapter = new BoardAdapter(new HistoryRecordBoard(mBoard, dataStore, mGameId), isComputerPlayer);
 		boardView.setAdapter(adapter);
 
 		setupWidgets();
@@ -184,6 +194,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putParcelable(STATE_BOARD, mBoard);
+		outState.putLong(GAME_ID, mGameId);
 		super.onSaveInstanceState(outState);
 	}
 

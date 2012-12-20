@@ -10,14 +10,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/selectorLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:gravity="center" >
 
         <Button
             android:id="@+id/button1Player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_playback_play"
+            android:drawableLeft="@drawable/ic_action_android"
             android:minWidth="160dp"
             android:text="@string/start_single" />
 
@@ -25,21 +25,38 @@
             android:id="@+id/button2Player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_playback_play"
+            android:drawableLeft="@drawable/ic_action_user"
             android:minWidth="160dp"
             android:text="@string/start_multi" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonHowTo"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ButtonLayout2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ButtonLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="38dp"
-        android:drawableLeft="@drawable/ic_action_info"
-        android:minWidth="160dp"
-        android:text="@string/how_to_play" />
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/buttonHowTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_info"
+            android:minWidth="160dp"
+            android:text="@string/how_to_play" />
+
+        <Button
+            android:id="@+id/buttonHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_clock"
+            android:minWidth="160dp"
+            android:text="@string/history" />
+    </LinearLayout>
+    
+
 
     <TextView
         android:id="@+id/Headline"

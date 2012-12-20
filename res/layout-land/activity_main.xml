@@ -10,13 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/abs__ab_transparent_dark_holo"
         android:gravity="center"
         android:text="@string/app_name"
         android:textSize="36sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:textStyle="bold|italic" />
 
     <LinearLayout
@@ -51,9 +51,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:drawableLeft="@drawable/ic_action_playback_play"
+                android:drawableLeft="@drawable/ic_action_android"
                 android:minWidth="160dp"
                 android:text="@string/start_single" />
+
+            <Button
+                android:id="@+id/buttonHowTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/ic_action_info"
+                android:minWidth="160dp"
+                android:text="@string/how_to_play" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,28 +85,26 @@
                 android:gravity="center"
                 android:prompt="@string/menu_title" />
 
-
             <Button
                 android:id="@+id/button2Player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:drawableLeft="@drawable/ic_action_playback_play"
+                android:drawableLeft="@drawable/ic_action_user"
                 android:minWidth="160dp"
                 android:text="@string/start_multi" />
-        </LinearLayout>
-    </LinearLayout>
 
             <Button
-                android:id="@+id/buttonHowTo"
+                android:id="@+id/buttonHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/selectorLayout"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:drawableLeft="@drawable/ic_action_info"
+                android:drawableLeft="@drawable/ic_action_clock"
                 android:minWidth="160dp"
-                android:text="@string/how_to_play" />
+                android:text="@string/history" />
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

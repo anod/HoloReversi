@@ -1,6 +1,5 @@
-package com.example.holoreversi.model;
+package com.example.holoreversi.model.history;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.ContentValues;
@@ -10,69 +9,65 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 
-public class DSsqlite implements DataStore{
+import com.example.holoreversi.model.Cell;
+
+public class SQLiteDataStore implements DataStore {
 	
-	private static final String MOVES_TABLE_NAME = "HISTORY_MOVES";
-	private static final String GAMES_TABLE_NAME = "HISTORY_GAMES";
-	private static final String COLUMN_ID = "ID";
-	private static final String COLUMN_NAME_X = "X";
-	private static final String COLUMN_NAME_Y = "Y";
-	private static final String COLUMN_NAME_REL = "GAMEID";
-	private static final String COLUMN_NAME_TIME = "STARTTIME";
-	private static final String COLUMN_NAME_KIND = "COLOR";
-	private static final String COLUMN_NAME_SCORE1 = "SCOREBLACK";
-	private static final String COLUMN_NAME_SCORE2 = "SCOREWHITE";
-	private static final String COLUMN_NAME_NUMBEROFMOVES = "NUMBEROFMOVES";
-	private static final String DATABASE_FILE_NAME = "HoloReversi.db";
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 
+		private static final int DATABASE_VERSION = 3;
 		public DatabaseHelper(Context context) {
-			super(context, DATABASE_FILE_NAME, null, 1);
+			super(context, DATABASE_FILE_NAME, null, DATABASE_VERSION);
 		}
 		
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			String test = "CREATE TABLE " + GAMES_TABLE_NAME + " ("
-					+ COLUMN_ID + " INTEGER PRIMARY KEY,"
+					+ _ID + " INTEGER PRIMARY KEY,"
 					+ COLUMN_NAME_TIME + " TEXT,"
 					+ COLUMN_NAME_NUMBEROFMOVES + " INTEGER,"
 					+ COLUMN_NAME_SCORE1 + " INTEGER,"
 					+ COLUMN_NAME_SCORE2 + " INTEGER"
 					+ ");";
 			db.execSQL("CREATE TABLE " + GAMES_TABLE_NAME + " ("
-				+ COLUMN_ID + " INTEGER PRIMARY KEY,"
+				+ _ID + " INTEGER PRIMARY KEY,"
 				+ COLUMN_NAME_TIME + " TEXT,"
 				+ COLUMN_NAME_NUMBEROFMOVES + " INTEGER,"
 				+ COLUMN_NAME_SCORE1 + " INTEGER,"
 				+ COLUMN_NAME_SCORE2 + " INTEGER"
 				+ ");");
 			test = "CREATE TABLE " + MOVES_TABLE_NAME + " ("
-	                + COLUMN_ID + " INTEGER PRIMARY KEY,"
+	                + _ID + " INTEGER PRIMARY KEY,"
 	                + COLUMN_NAME_REL + " INTEGER,"
 	                + COLUMN_NAME_KIND + " INTEGER,"
 	                + COLUMN_NAME_X + " INTEGER,"
 	                + COLUMN_NAME_Y + " INTEGER,"
-	                + "FOREIGN KEY ("+COLUMN_NAME_REL+") REFERENCES "+GAMES_TABLE_NAME+" ("+COLUMN_ID+")"
+	                + "FOREIGN KEY ("+COLUMN_NAME_REL+") REFERENCES "+GAMES_TABLE_NAME+" ("+_ID+")"
 	                + ");";
 			db.execSQL("CREATE TABLE " + MOVES_TABLE_NAME + " ("
-                + COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + _ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_NAME_REL + " INTEGER,"
                 + COLUMN_NAME_KIND + " INTEGER,"
                 + COLUMN_NAME_X + " INTEGER,"
                 + COLUMN_NAME_Y + " INTEGER,"
-                + "FOREIGN KEY ("+COLUMN_NAME_REL+") REFERENCES "+GAMES_TABLE_NAME+" ("+COLUMN_ID+")"
+                + "FOREIGN KEY ("+COLUMN_NAME_REL+") REFERENCES "+GAMES_TABLE_NAME+" ("+_ID+")"
                 + ");");
 
 		}
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// There is no upgrade at the moment will use only one DB
+	           // Kills the table and existing data
+	           db.execSQL("DROP TABLE IF EXISTS " + GAMES_TABLE_NAME);
+	           db.execSQL("DROP TABLE IF EXISTS " + MOVES_TABLE_NAME);
+
+	           // Recreates the database with a new version
+	           onCreate(db);
 		}
 	}
 	
 	private DatabaseHelper mOpenHelper = null; // private object to hold DB
 
-	public DSsqlite(Context context) {
+	public SQLiteDataStore(Context context) {
 		mOpenHelper = new DatabaseHelper(context);
 	}
 
@@ -102,41 +97,21 @@ public class DSsqlite implements DataStore{
 	}
 
 	@Override
-	public ArrayList<Game> getGames() {
-		ArrayList<Game> ret = new ArrayList<Game>();
+	public Cursor getGames() {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         qb.setTables(GAMES_TABLE_NAME);
         Cursor c = qb.query(mOpenHelper.getReadableDatabase(), null, null, null, null, null, null);
-		while (c.moveToNext()) {
-			Game g = new Game();
-			g.ID = c.getInt(c.getColumnIndex(COLUMN_ID));
-			g.date = c.getInt(c.getColumnIndex(COLUMN_NAME_TIME));
-			g.scoreBlack = c.getInt(c.getColumnIndex(COLUMN_NAME_SCORE1));
-			g.scoreWhite = c.getInt(c.getColumnIndex(COLUMN_NAME_SCORE2));
-			ret.add(g);
-		}
-   		return ret;
+        return c;
 	}
 
 	@Override
-	public ArrayList<Cell> getMoves(long gid) {
-		ArrayList<Cell> ret = new ArrayList<Cell>();
+	public Cursor getMoves(long gid) {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         qb.setTables(MOVES_TABLE_NAME);
         String whereClause = COLUMN_NAME_REL + " = " + gid;
-        String sortOrder = COLUMN_ID + " desc";
+        String sortOrder = _ID + " desc";
         Cursor c = qb.query(mOpenHelper.getReadableDatabase(), null, whereClause, null, null, null, sortOrder);
-        int xColumn = c.getColumnIndex(COLUMN_NAME_X);
-        int yColumn = c.getColumnIndex(COLUMN_NAME_Y);
-        int contentsColumn = c.getColumnIndex(COLUMN_NAME_KIND);
-        while (c.moveToNext()) {
-        	int x = c.getInt(xColumn);
-        	int y = c.getInt(yColumn);
-        	Cell cell = new Cell(x, y);
-        	cell.contents = c.getInt(contentsColumn);
-        	ret.add(cell);
-        }
-        return ret;
+        return c;
 	}
 
 

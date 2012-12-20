@@ -20,5 +20,6 @@
     <string name="how_to_play">How to play?</string>
     <string name="menu_newgame">New Game</string>
     <string name="title_activity_history">HistoryActivity</string>
+    <string name="history">History</string>
 
 </resources>
