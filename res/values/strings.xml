@@ -21,5 +21,6 @@
     <string name="menu_newgame">New Game</string>
     <string name="title_activity_history">HistoryActivity</string>
     <string name="history">History</string>
+    <string name="no_games_in_history">No games in history</string>
 
 </resources>
