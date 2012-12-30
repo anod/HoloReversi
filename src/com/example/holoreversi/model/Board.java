@@ -10,6 +10,7 @@ public interface Board {
 	interface Callback {
 		void onNextPlayer(int nextPlayer);
 		void onBoardUpdate(final Board board);
+		void onGameEnd(final Board board);
 	}
 
 	void resetBoard();

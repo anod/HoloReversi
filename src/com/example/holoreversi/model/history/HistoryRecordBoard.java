@@ -147,9 +147,15 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 		//new Thread(new Runnable() {
 		//public void run() {
 		//	synchronized (sLock) {
-				mHistoryProvider.updateScores(mGameId, board.getScoreBlack(), board.getScoreWhite(), mMoves);
+//				mHistoryProvider.updateScores(mGameId, board.getScoreBlack(), board.getScoreWhite(), mMoves);
 		//	}
 		//}}).start();
+		
+	}
+
+	@Override
+	public void onGameEnd(final Board board) {
+		mHistoryProvider.updateScores(mGameId, board.getScoreBlack(), board.getScoreWhite(), mMoves);
 		
 	}
 

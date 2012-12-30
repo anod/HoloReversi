@@ -168,12 +168,10 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 		} else {
 			mUndoButton.setEnabled(false);
 		}
-		if(board.isGameEnded()) {
-			showFinishDialog();
-		}
 		// TODO end the game and return to main activity
 	}
 
+	
 	private void showFinishDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		String playerStr;
@@ -217,6 +215,11 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 	@Override
 	public void onChange(long gameId) {
 		mGameId = gameId;
+	}
+
+	@Override
+	public void onGameEnd(Board board) {
+		showFinishDialog();
 	}
 	
 	

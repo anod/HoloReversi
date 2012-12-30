@@ -206,5 +206,11 @@ public class BoardAdapter implements Board.Callback, OnClickListener, Player.OnP
 			btn.startAnimation(mCellAnim2);
 		}
 	}
+
+	@Override
+	public void onGameEnd(Board board) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

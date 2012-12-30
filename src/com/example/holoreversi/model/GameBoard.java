@@ -332,6 +332,9 @@ public class GameBoard implements Board,Parcelable {
 		if(getAllowedMoves().size() == 0) {
 			step++;
 		}
+		if (isGameEnded()) {
+			notifyGameEnd();
+		}
 		notifyCellUpdate();
 		notifyNextPlayer();
 		return true;
@@ -359,6 +362,11 @@ public class GameBoard implements Board,Parcelable {
 		int nextPlayer = currentPlayer();
 		for (Callback callback : listenrs) {
 			callback.onNextPlayer(nextPlayer);
+		}
+	}
+	private void notifyGameEnd() {
+		for (Callback callback : listenrs) {
+			callback.onGameEnd(this);
 		}
 	}
 	
