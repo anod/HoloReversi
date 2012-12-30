@@ -20,6 +20,8 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 	private int mMoves;
 	private OnGameIdChangeListener mGameIdChangeListener;
 	
+	private static final Object[] sLock = new Object[0];
+	
 	public HistoryRecordBoard(Board board, DataStore dataStore, OnGameIdChangeListener listener) {
 		mBoard = board;
 		mDataStore = dataStore;
@@ -42,6 +44,7 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 		}
 		mMoves = cursor.getInt(DataStore.IDX_NUMBEROFMOVES);
 		cursor.close();
+		
 	}
 	
 	
@@ -82,11 +85,17 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 	}
 
 	@Override
-	public boolean move(Cell cell) {
+	public boolean move(final Cell cell) {
 		boolean moved = mBoard.move(cell);
 		if (moved) {
-			mDataStore.insertMove(mGameId, cell);
-			mMoves++;
+			new Thread(new Runnable() {
+				public void run() {
+					synchronized (sLock) {
+						mDataStore.insertMove(mGameId, cell);
+						mMoves++;
+					}
+				}
+			}).start();
 		}
 		return moved;
 	}
@@ -105,7 +114,9 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 	public boolean undoMove() {
 		boolean result = mBoard.undoMove();
 		if (result) {
-			mMoves--;
+			synchronized (sLock) {
+				mMoves--;
+			}
 		}
 		return result;
 	}
@@ -132,8 +143,14 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 	}
 
 	@Override
-	public void onBoardUpdate(Board board) {
-		mDataStore.updateScores(mGameId, board.getScoreBlack(), board.getScoreWhite(), mMoves);
+	public void onBoardUpdate(final Board board) {
+		new Thread(new Runnable() {
+		public void run() {
+			synchronized (sLock) {
+				mDataStore.updateScores(mGameId, board.getScoreBlack(), board.getScoreWhite(), mMoves);
+			}
+		}}).start();
+		
 	}
 
 }

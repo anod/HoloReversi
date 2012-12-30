@@ -9,7 +9,7 @@ public interface Board {
 	
 	interface Callback {
 		void onNextPlayer(int nextPlayer);
-		void onBoardUpdate(Board board);
+		void onBoardUpdate(final Board board);
 	}
 
 	void resetBoard();
@@ -19,7 +19,7 @@ public interface Board {
 	int getScoreWhite();
 	int getScoreBlack();
 	Cell[][] getAll();
-	boolean move(Cell cell);
+	boolean move(final Cell cell);
 	ArrayList<Cell> getAllowedMoves();
 	void addCallbackListener(Callback callback);
 	boolean undoMove();
