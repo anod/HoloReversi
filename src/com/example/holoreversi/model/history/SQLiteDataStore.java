@@ -95,12 +95,24 @@ public class SQLiteDataStore implements DataStore {
 		long rowid = db.insert(GAMES_TABLE_NAME, COLUMN_NAME_TIME, values);
 		return rowid;
 	}
+	
+	@Override
+	public int updateScores(long gameId, int scoresBalck, int scoresWhite, int numMoves) {
+		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(COLUMN_NAME_SCORE1, scoresBalck);
+		values.put(COLUMN_NAME_SCORE2, scoresWhite);
+		values.put(COLUMN_NAME_NUMBEROFMOVES, numMoves);
+		return db.update(GAMES_TABLE_NAME, values, _ID+ "=?",  new String[] { Long.toString(gameId) });
+	}
 
 	@Override
 	public Cursor getGames() {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         qb.setTables(GAMES_TABLE_NAME);
-        Cursor c = qb.query(mOpenHelper.getReadableDatabase(), null, null, null, null, null, null);
+        String selection = COLUMN_NAME_NUMBEROFMOVES + ">?";
+        String[] selectionArgs = new String[] { "0" };
+        Cursor c = qb.query(mOpenHelper.getReadableDatabase(), null, selection, selectionArgs, null, null, _ID+" DESC");
         return c;
 	}
 
@@ -111,6 +123,16 @@ public class SQLiteDataStore implements DataStore {
         String whereClause = COLUMN_NAME_REL + " = " + gid;
         String sortOrder = _ID + " desc";
         Cursor c = qb.query(mOpenHelper.getReadableDatabase(), null, whereClause, null, null, null, sortOrder);
+        return c;
+	}
+
+	@Override
+	public Cursor getGameById(long gameId) {
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables(GAMES_TABLE_NAME);
+        String selection = _ID + "=?";
+        String[] selectionArgs = new String[] { Long.toString(gameId) };
+        Cursor c = qb.query(mOpenHelper.getReadableDatabase(), null, selection, selectionArgs, null, null, null);
         return c;
 	}
 

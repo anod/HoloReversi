@@ -12,10 +12,6 @@ import com.example.holoreversi.model.history.DataStore;
 
 public class HistoryCursorAdapter extends SimpleCursorAdapter {
 
-	public static final int IDX_TIME = 1;
-	public static final int IDX_NUMBEROFMOVES = 2;
-	public static final int IDX_SCOREBLACK = 3;
-	public static final int IDX_SCOREWHITE = 4;
 
 
 	public HistoryCursorAdapter(Context context) {
@@ -50,16 +46,16 @@ public class HistoryCursorAdapter extends SimpleCursorAdapter {
 		@Override
 		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 			
-			if (columnIndex == IDX_TIME) {
+			if (columnIndex == DataStore.IDX_TIME) {
 				String dateTime = DateUtils.formatDateTime(mContext, cursor.getLong(columnIndex),
 					DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
 				);
 				((TextView)view).setText(dateTime);
-			} else if (columnIndex == IDX_NUMBEROFMOVES) {
+			} else if (columnIndex == DataStore.IDX_NUMBEROFMOVES) {
 				((TextView)view).setText(mContext.getString(R.string.moves_num, cursor.getInt(columnIndex)));
-			} else if (columnIndex == IDX_SCOREBLACK) {
+			} else if (columnIndex == DataStore.IDX_SCOREBLACK) {
 					((TextView)view).setText(mContext.getString(R.string.scoreBlack, cursor.getInt(columnIndex)));
-			} else if (columnIndex == IDX_SCOREWHITE) {
+			} else if (columnIndex == DataStore.IDX_SCOREWHITE) {
 					((TextView)view).setText(mContext.getString(R.string.scoreWhite, cursor.getInt(columnIndex)));
 			}
 			return true;

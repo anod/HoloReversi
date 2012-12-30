@@ -23,7 +23,7 @@ import com.example.holoreversi.model.history.SQLiteDataStore;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
 
-public class BoardActivity extends SherlockActivity implements Board.Callback {
+public class BoardActivity extends SherlockActivity implements Board.Callback, HistoryRecordBoard.OnGameIdChangeListener {
 	
 	
 	private static final String GAME_ID = "game_id";
@@ -56,7 +56,6 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 				return;
 			}
 			mBoard = new GameBoard(boardSize);
-			mGameId = dataStore.insertGame();
 		} else {
 			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
 			mGameId = savedInstanceState.getLong(GAME_ID);
@@ -64,7 +63,14 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		boolean isComputerPlayer = getIntent().getBooleanExtra(EXTRA_COMPUTER_PLAYER, false);
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
 		
-		BoardAdapter adapter = new BoardAdapter(new HistoryRecordBoard(mBoard, dataStore, mGameId), isComputerPlayer);
+		final HistoryRecordBoard boardWithHistory = new HistoryRecordBoard(mBoard, dataStore, this);
+		if (mGameId > 0) {
+			boardWithHistory.loadGame(mGameId);
+		} else {
+			boardWithHistory.createNewGame();
+		}
+		
+		BoardAdapter adapter = new BoardAdapter(boardWithHistory, isComputerPlayer);
 		boardView.setAdapter(adapter);
 
 		setupWidgets();
@@ -202,6 +208,11 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 	public void onNextPlayer(int nextPlayer) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void onChange(long gameId) {
+		mGameId = gameId;
 	}
 	
 	

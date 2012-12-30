@@ -2,20 +2,52 @@ package com.example.holoreversi.model.history;
 
 import java.util.ArrayList;
 
+import android.database.Cursor;
+import android.util.Log;
+
 import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.Cell;
 
-public class HistoryRecordBoard implements Board{
+public class HistoryRecordBoard implements Board, Board.Callback{
+	
+	public interface OnGameIdChangeListener {
+		void onChange(long gameId);
+	}
+	
 	private Board mBoard;
 	private DataStore mDataStore;
 	private long mGameId = 0;
-	public HistoryRecordBoard(Board board, DataStore dataStore, long gameId) {
+	private int mMoves;
+	private OnGameIdChangeListener mGameIdChangeListener;
+	
+	public HistoryRecordBoard(Board board, DataStore dataStore, OnGameIdChangeListener listener) {
 		mBoard = board;
 		mDataStore = dataStore;
+		mGameIdChangeListener = listener;
+		mBoard.addCallbackListener(this);
 	}
+	
+	public void createNewGame() {
+		mGameId = mDataStore.insertGame();
+		mMoves = 0;
+		mGameIdChangeListener.onChange(mGameId);
+	}
+	
+	public void loadGame(long gameId) {
+		mGameId = gameId;
+		Cursor cursor = mDataStore.getGameById(gameId);
+		if (cursor == null) {
+			Log.e("HistoryRecordBoard", "Game cannot be loaded, id: " + gameId);
+			return;
+		}
+		mMoves = cursor.getInt(DataStore.IDX_NUMBEROFMOVES);
+		cursor.close();
+	}
+	
 	
 	@Override
 	public void resetBoard() {
+		createNewGame();
 		mBoard.resetBoard();
 	}
 
@@ -54,6 +86,7 @@ public class HistoryRecordBoard implements Board{
 		boolean moved = mBoard.move(cell);
 		if (moved) {
 			mDataStore.insertMove(mGameId, cell);
+			mMoves++;
 		}
 		return moved;
 	}
@@ -70,7 +103,11 @@ public class HistoryRecordBoard implements Board{
 
 	@Override
 	public boolean undoMove() {
-		return mBoard.undoMove();
+		boolean result = mBoard.undoMove();
+		if (result) {
+			mMoves--;
+		}
+		return result;
 	}
 
 	@Override
@@ -86,6 +123,17 @@ public class HistoryRecordBoard implements Board{
 	@Override
 	public int checkNextMove(Cell cell) {
 		return mBoard.checkNextMove(cell);
+	}
+
+	@Override
+	public void onNextPlayer(int nextPlayer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onBoardUpdate(Board board) {
+		mDataStore.updateScores(mGameId, board.getScoreBlack(), board.getScoreWhite(), mMoves);
 	}
 
 }
