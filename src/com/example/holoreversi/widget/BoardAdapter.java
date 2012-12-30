@@ -20,8 +20,6 @@ import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.Cell;
 import com.example.holoreversi.model.HumanPlayer;
 import com.example.holoreversi.model.Player;
-import com.example.holoreversi.model.history.SQLiteDataStore;
-import com.example.holoreversi.model.history.DataStore;
 
 public class BoardAdapter implements Board.Callback, OnClickListener  {
 	final private Board mBoard;

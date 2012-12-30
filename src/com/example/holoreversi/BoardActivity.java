@@ -175,8 +175,8 @@ public class BoardActivity extends SherlockActivity implements Board.Callback {
 		} else {
 			playerStr = getString(R.string.tie);
 		}
-		playerStr += "\n" + getString(R.string.scoreBlack) + mBoard.getScoreBlack();
-		playerStr += "\n" + getString(R.string.scoreWhite) + mBoard.getScoreWhite();
+		playerStr += "\n" + getString(R.string.scoreBlack, mBoard.getScoreBlack());
+		playerStr += "\n" + getString(R.string.scoreWhite, mBoard.getScoreWhite());
 		builder
 			.setMessage(playerStr)
 			.setCancelable(true)

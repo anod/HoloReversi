@@ -15,12 +15,13 @@
     <string name="player_name_blue">Blue</string>
     <string name="player_won">" - WON!"</string>
     <string name="tie">Its a TIE nobody won</string>
-    <string name="scoreBlack"> Blue: </string>
-    <string name="scoreWhite"> White: </string>
+    <string name="scoreBlack">Blue: %d</string>
+    <string name="scoreWhite">White: %d</string>
     <string name="how_to_play">How to play?</string>
     <string name="menu_newgame">New Game</string>
     <string name="title_activity_history">HistoryActivity</string>
     <string name="history">History</string>
     <string name="no_games_in_history">No games in history</string>
+    <string name="moves_num">Moves: %d</string>
 
 </resources>
