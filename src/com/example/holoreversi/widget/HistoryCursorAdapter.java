@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.holoreversi.R;
-import com.example.holoreversi.model.history.DataStore;
+import com.example.holoreversi.model.history.HistoryContract;
 
 public class HistoryCursorAdapter extends SimpleCursorAdapter {
 
@@ -18,10 +18,10 @@ public class HistoryCursorAdapter extends SimpleCursorAdapter {
 		super(context,
 			R.layout.history_list_item, null,
 			new String[] { 
-				DataStore.COLUMN_NAME_TIME,
-				DataStore.COLUMN_NAME_NUMBEROFMOVES,
-				DataStore.COLUMN_NAME_SCORE1,
-				DataStore.COLUMN_NAME_SCORE2
+				HistoryContract.HistoryColumns.COLUMN_NAME_TIME,
+				HistoryContract.HistoryColumns.COLUMN_NAME_NUMBEROFMOVES,
+				HistoryContract.HistoryColumns.COLUMN_NAME_SCORE1,
+				HistoryContract.HistoryColumns.COLUMN_NAME_SCORE2
 			},
 			new int[] { 
 				android.R.id.text1, 
@@ -46,16 +46,16 @@ public class HistoryCursorAdapter extends SimpleCursorAdapter {
 		@Override
 		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 			
-			if (columnIndex == DataStore.IDX_TIME) {
+			if (columnIndex == HistoryContract.HistoryColumns.IDX_TIME) {
 				String dateTime = DateUtils.formatDateTime(mContext, cursor.getLong(columnIndex),
 					DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
 				);
 				((TextView)view).setText(dateTime);
-			} else if (columnIndex == DataStore.IDX_NUMBEROFMOVES) {
+			} else if (columnIndex == HistoryContract.HistoryColumns.IDX_NUMBEROFMOVES) {
 				((TextView)view).setText(mContext.getString(R.string.moves_num, cursor.getInt(columnIndex)));
-			} else if (columnIndex == DataStore.IDX_SCOREBLACK) {
+			} else if (columnIndex == HistoryContract.HistoryColumns.IDX_SCOREBLACK) {
 					((TextView)view).setText(mContext.getString(R.string.scoreBlack, cursor.getInt(columnIndex)));
-			} else if (columnIndex == DataStore.IDX_SCOREWHITE) {
+			} else if (columnIndex == HistoryContract.HistoryColumns.IDX_SCOREWHITE) {
 					((TextView)view).setText(mContext.getString(R.string.scoreWhite, cursor.getInt(columnIndex)));
 			}
 			return true;

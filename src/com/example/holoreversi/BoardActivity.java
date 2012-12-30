@@ -17,9 +17,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.GameBoard;
-import com.example.holoreversi.model.history.DataStore;
+import com.example.holoreversi.model.history.HistoryProviderHelper;
 import com.example.holoreversi.model.history.HistoryRecordBoard;
-import com.example.holoreversi.model.history.SQLiteDataStore;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
 
@@ -48,7 +47,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 		}
 		
 		mGameId = 0;
-		DataStore dataStore = new SQLiteDataStore(this);
+		HistoryProviderHelper historyProvider = new HistoryProviderHelper(this);
 		if (savedInstanceState == null) {
 			int boardSize = getIntent().getIntExtra(EXTRA_BOARD_SIZE, 0);
 			if (boardSize == 0) {
@@ -64,7 +63,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 		isComputerPlayer = getIntent().getBooleanExtra(EXTRA_COMPUTER_PLAYER, false);
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
 		
-		final HistoryRecordBoard boardWithHistory = new HistoryRecordBoard(mBoard, dataStore, this);
+		final HistoryRecordBoard boardWithHistory = new HistoryRecordBoard(mBoard, historyProvider, this);
 		if (mGameId > 0) {
 			boardWithHistory.loadGame(mGameId);
 		} else {

@@ -6,8 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.AsyncTaskLoader;
 
-import com.example.holoreversi.model.history.DataStore;
-import com.example.holoreversi.model.history.SQLiteDataStore;
+import com.example.holoreversi.model.history.HistoryProviderHelper;
 
 
 public class HistoryCursorLoader extends AsyncTaskLoader<Cursor> {
@@ -29,7 +28,7 @@ public class HistoryCursorLoader extends AsyncTaskLoader<Cursor> {
 	@Override
 	public Cursor loadInBackground() {
 		try {
-			DataStore dataStore = new SQLiteDataStore(getContext());
+			HistoryProviderHelper dataStore = new HistoryProviderHelper(getContext());
 			Cursor cursor = dataStore.getGames();
 			if (cursor != null) {
 				// Ensure the cursor window is filled
