@@ -1,8 +1,13 @@
-package com.example.holoreversi.model;
+package com.example.holoreversi.model.player;
 
 import java.util.ArrayList;
 
-public class AIPlayer implements Player {
+import android.os.Handler;
+
+import com.example.holoreversi.model.Board;
+import com.example.holoreversi.model.Cell;
+
+public class AIPlayer extends AbstractPlayer {
 	private Board mBoard;
 
 	public AIPlayer(Board board) {
@@ -13,7 +18,19 @@ public class AIPlayer implements Player {
 	 * @see com.example.holoreversi.model.Player#play()
 	 */
 	@Override
-	public Cell play() {
+	public void play() {
+		// SLEEP 2 SECONDS HERE ...
+	    Handler handler = new Handler(); 
+	    handler.postDelayed(new Runnable() { 
+	         public void run() { 
+	        	Cell cell = playDelayed();
+	        	AIPlayer.this.notify(cell);
+	         }
+	    }, 300); 
+
+	}
+	
+	protected Cell playDelayed() {
 		Cell ret = new Cell(0, 0);
 		ArrayList<Cell> allowd = mBoard.getAllowedMoves();
 		int min = 0;

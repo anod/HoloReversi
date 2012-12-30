@@ -15,13 +15,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.holoreversi.R;
-import com.example.holoreversi.model.AIPlayer;
 import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.Cell;
-import com.example.holoreversi.model.HumanPlayer;
-import com.example.holoreversi.model.Player;
+import com.example.holoreversi.model.player.AIPlayer;
+import com.example.holoreversi.model.player.HumanPlayer;
+import com.example.holoreversi.model.player.Player;
 
-public class BoardAdapter implements Board.Callback, OnClickListener  {
+public class BoardAdapter implements Board.Callback, OnClickListener, Player.OnPlayListener  {
 	final private Board mBoard;
 	private Context mContext;
 	private BoardView mBoardView;
@@ -41,6 +41,7 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 		} else {
 			mSecondPlayer = new HumanPlayer();
 		}
+		mSecondPlayer.setOnPlayeListener(this);
 		
 	}
 
@@ -194,11 +195,15 @@ public class BoardAdapter implements Board.Callback, OnClickListener  {
 	@Override
 	public void onNextPlayer(int nextPlayer) {
 		if (nextPlayer == Board.WHITE) {
-			Cell cell = mSecondPlayer.play();
-			if (cell != null) {
-				ImageButton btn = getImageButton(cell);
-				btn.startAnimation(mCellAnim2);
-			}
+			mSecondPlayer.play();
+		}
+	}
+
+	@Override
+	public void OnPlay(Cell cell) {
+		if (cell != null) {
+			ImageButton btn = getImageButton(cell);
+			btn.startAnimation(mCellAnim2);
 		}
 	}
 	
