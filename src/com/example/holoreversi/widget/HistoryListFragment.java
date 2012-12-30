@@ -7,10 +7,11 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.example.holoreversi.R;
 import com.example.holoreversi.model.history.DataStore;
 
-public class HistoryListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class HistoryListFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	// This is the Adapter being used to display the list's data.
 	SimpleCursorAdapter mAdapter;
 

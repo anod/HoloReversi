@@ -1,12 +1,12 @@
 package com.example.holoreversi;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.holoreversi.widget.HistoryListFragment;
 
-public class HistoryActivity extends FragmentActivity {
+public class HistoryActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
