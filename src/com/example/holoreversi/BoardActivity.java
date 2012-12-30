@@ -37,6 +37,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 	private GameBoard mBoard;
 	private Button mUndoButton;
 	private long mGameId;
+	private boolean isComputerPlayer;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 			mBoard = (GameBoard)savedInstanceState.get(STATE_BOARD);
 			mGameId = savedInstanceState.getLong(GAME_ID);
 		}
-		boolean isComputerPlayer = getIntent().getBooleanExtra(EXTRA_COMPUTER_PLAYER, false);
+		isComputerPlayer = getIntent().getBooleanExtra(EXTRA_COMPUTER_PLAYER, false);
 		final BoardView boardView = (BoardView)findViewById(R.id.board);
 		
 		final HistoryRecordBoard boardWithHistory = new HistoryRecordBoard(mBoard, dataStore, this);
@@ -91,6 +92,10 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 			@Override
 			public void onClick(View v) {
 				mBoard.undoMove();
+				if(isComputerPlayer)
+				{
+					mBoard.undoMove();
+				}
 			}
 		});
 		mUndoButton.setEnabled(mBoard.hasUndo());

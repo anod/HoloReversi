@@ -12,20 +12,22 @@ public class GameBoard implements Board,Parcelable {
 	private int boardSize;
 	private Cell tiles[][] = null;
 	//private ArrayList<ArrayList<Cell>> stepChanges;
-	private ArrayList<Cell> stepChanges;
+	private ArrayList<Cell> stepChangesBlack;
+	private ArrayList<Cell> stepChangesWhite;
 	private ArrayList<Callback> listenrs;
 	private int step;
 
 	public GameBoard(int size)
 	{
-		stepChanges = new ArrayList<Cell>();
+		stepChangesBlack = new ArrayList<Cell>();
+		stepChangesWhite = new ArrayList<Cell>();
 		listenrs = new ArrayList<Board.Callback>();
 		boardSize = size;
 		resetBoardInternal(false);
 	}
 	
     public GameBoard(Parcel in) {
-		stepChanges = new ArrayList<Cell>();
+		//stepChanges = new ArrayList<Cell>();
 		listenrs = new ArrayList<Board.Callback>();
     	boardSize = in.readInt();
     	tiles = new Cell[boardSize][boardSize];
@@ -39,11 +41,11 @@ public class GameBoard implements Board,Parcelable {
 		}
 		step = in.readInt();
 		int size = in.readInt();
-		stepChanges = new ArrayList<Cell>();
-		for(int i=0;i<size;i++)
-		{
-			stepChanges.add(new Cell(in));
-		}
+		//stepChanges = new ArrayList<Cell>();
+		//for(int i=0;i<size;i++)
+		//{
+		//	stepChanges.add(new Cell(in));
+		//}
 		calculateScore();
 		
 	}
@@ -63,8 +65,8 @@ public class GameBoard implements Board,Parcelable {
 	public boolean hasUndo() {
 		if(step == 0)
 			return false;
-		if(stepChanges.size() == 0)
-			return false;
+		if(currentPlayer() == BLACK && stepChangesBlack.size()== 0)
+			return false; // means either the black did undo so it is now the white turn and he still has one undo left.
 		return true;
 	}
 	
@@ -78,7 +80,8 @@ public class GameBoard implements Board,Parcelable {
 	
     
 	private void resetBoardInternal(boolean notify) {
-		stepChanges.clear();
+		stepChangesBlack.clear();
+		stepChangesWhite.clear();
     	tiles = new Cell[boardSize][boardSize];
 		for (int i=0;i<boardSize;i++) {
 			for (int j=0;j<boardSize;j++) {
@@ -253,12 +256,24 @@ public class GameBoard implements Board,Parcelable {
 		if (!hasUndo()) {
 			return false;
 		}
-		step--;
-		for (Cell cell : stepChanges) {
-			tiles[cell.x][cell.y].contents = cell.contents; 
+		step--; // becouse current player has already been changed
+		if(currentPlayer() == BLACK)
+		{
+			for (Cell cell : stepChangesBlack) {
+				tiles[cell.x][cell.y].contents = cell.contents; 
+			}
+			stepChangesBlack.clear();
 		}
+		else
+		{
+			for (Cell cell : stepChangesWhite) {
+				tiles[cell.x][cell.y].contents = cell.contents; 
+			}
+			stepChangesWhite.clear();
+		}
+
+
 		calculateScore();
-		stepChanges.clear();
 		notifyCellUpdate();
 		return true;
 	}
@@ -277,10 +292,10 @@ public class GameBoard implements Board,Parcelable {
 			}
 		}
 		dest.writeInt(step);
-		dest.writeInt(stepChanges.size());
-		for (Cell cell : stepChanges) {
-			cell.writeToParcel(dest, flags);
-		}
+		//dest.writeInt(stepChanges.size());
+		//for (Cell cell : stepChanges) {
+		//	cell.writeToParcel(dest, flags);
+		//}
 	}
 	
 	@Override
@@ -300,7 +315,14 @@ public class GameBoard implements Board,Parcelable {
 	public boolean move(Cell cell) {
 		if(cell.contents != EMPTY)
 			return false;
-		stepChanges.clear();
+		if(currentPlayer() == BLACK)
+		{
+			stepChangesBlack.clear();
+		}
+		else
+		{
+			stepChangesWhite.clear();
+		}
 		int changed = doMove(cell);
 		if (changed == 0) {
 			return false;
@@ -320,7 +342,10 @@ public class GameBoard implements Board,Parcelable {
 	{
 		Cell temp = new Cell(x, y);
 		temp.contents = tiles[x][y].contents;
-		stepChanges.add(temp);
+		if(kind == BLACK)
+			stepChangesBlack.add(temp);
+		else
+			stepChangesWhite.add(temp);
 		tiles[x][y].contents = kind;
 	}
 	
