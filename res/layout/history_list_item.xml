@@ -5,10 +5,20 @@
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="vertical" >
 
+    <ImageView
+        android:id="@+id/sizeIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="4dip"
+        android:layout_alignTop="@android:id/text1"
+        android:src="@drawable/ic_board_4" />
+    
     <TextView
         android:id="@android:id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/sizeIcon"
         android:layout_marginLeft="5dip"
         android:layout_marginTop="8dip"
         android:textAppearance="?android:attr/textAppearanceLarge" 
@@ -42,4 +52,7 @@
         android:paddingLeft="8dip"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/scoreWhite" />
+
+
+
 </RelativeLayout>
