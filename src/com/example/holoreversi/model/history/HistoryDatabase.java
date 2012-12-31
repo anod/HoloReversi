@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class HistoryDatabase extends SQLiteOpenHelper {
 	private static final String DATABASE_FILE_NAME = "HoloReversi.db";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 	
 	public HistoryDatabase(Context context) {
 		super(context, DATABASE_FILE_NAME, null, DATABASE_VERSION);
@@ -16,18 +16,19 @@ public class HistoryDatabase extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE " + HistoryContract.Tables.HISTORY + " ("
 			+ HistoryContract.HistoryColumns._ID + " INTEGER PRIMARY KEY,"
-			+ HistoryContract.HistoryColumns.COLUMN_NAME_TIME + " TEXT,"
-			+ HistoryContract.HistoryColumns.COLUMN_NAME_NUMBEROFMOVES + " INTEGER,"
-			+ HistoryContract.HistoryColumns.COLUMN_NAME_SCORE1 + " INTEGER,"
-			+ HistoryContract.HistoryColumns.COLUMN_NAME_SCORE2 + " INTEGER"
+			+ HistoryContract.HistoryColumns.TIME + " TEXT,"
+			+ HistoryContract.HistoryColumns.NUMBEROFMOVES + " INTEGER,"
+			+ HistoryContract.HistoryColumns.SCORE1 + " INTEGER,"
+			+ HistoryContract.HistoryColumns.SCORE2 + " INTEGER"
+			+ HistoryContract.HistoryColumns.SIZE + " INTEGER,"
 			+ ");");
 		db.execSQL("CREATE TABLE " + HistoryContract.Tables.GAME + " ("
             + HistoryContract.GameColumns._ID + " INTEGER PRIMARY KEY,"
-            + HistoryContract.GameColumns.COLUMN_NAME_REL + " INTEGER,"
-            + HistoryContract.GameColumns.COLUMN_NAME_KIND + " INTEGER,"
-            + HistoryContract.GameColumns.COLUMN_NAME_X + " INTEGER,"
-            + HistoryContract.GameColumns.COLUMN_NAME_Y + " INTEGER,"
-            + "FOREIGN KEY ("+HistoryContract.GameColumns.COLUMN_NAME_REL+") REFERENCES "
+            + HistoryContract.GameColumns.REL + " INTEGER,"
+            + HistoryContract.GameColumns.KIND + " INTEGER,"
+            + HistoryContract.GameColumns.COL_X + " INTEGER,"
+            + HistoryContract.GameColumns.COL_Y + " INTEGER,"
+            + "FOREIGN KEY ("+HistoryContract.GameColumns.REL+") REFERENCES "
             + HistoryContract.Tables.HISTORY+" ("+HistoryContract.GameColumns._ID+")"
             + ");");
 

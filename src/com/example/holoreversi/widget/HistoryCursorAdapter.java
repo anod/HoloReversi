@@ -18,10 +18,10 @@ public class HistoryCursorAdapter extends SimpleCursorAdapter {
 		super(context,
 			R.layout.history_list_item, null,
 			new String[] { 
-				HistoryContract.HistoryColumns.COLUMN_NAME_TIME,
-				HistoryContract.HistoryColumns.COLUMN_NAME_NUMBEROFMOVES,
-				HistoryContract.HistoryColumns.COLUMN_NAME_SCORE1,
-				HistoryContract.HistoryColumns.COLUMN_NAME_SCORE2
+				HistoryContract.HistoryColumns.TIME,
+				HistoryContract.HistoryColumns.NUMBEROFMOVES,
+				HistoryContract.HistoryColumns.SCORE1,
+				HistoryContract.HistoryColumns.SCORE2
 			},
 			new int[] { 
 				android.R.id.text1, 

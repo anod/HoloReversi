@@ -37,7 +37,7 @@ public class HistoryListFragment extends SherlockListFragment implements LoaderM
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String selection = HistoryContract.HistoryColumns.COLUMN_NAME_NUMBEROFMOVES + ">?";
+        String selection = HistoryContract.HistoryColumns.NUMBEROFMOVES + ">?";
         String[] selectionArgs = new String[] { "0" };
 		return new CursorLoader(getActivity(), 
 			HistoryContract.History.CONTENT_URI, null, selection, selectionArgs, null

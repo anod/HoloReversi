@@ -114,7 +114,7 @@ public class HistoryProvider extends ContentProvider {
 		case GAME_ID: {
 			db.insertOrThrow(HistoryContract.Tables.GAME, null, values);
 			getContext().getContentResolver().notifyChange(uri, null, false);
-			return HistoryContract.Game.buildGameUri(values.getAsLong(HistoryContract.GameColumns.COLUMN_NAME_REL));
+			return HistoryContract.Game.buildGameUri(values.getAsLong(HistoryContract.GameColumns.REL));
 		}
 		default: {
 			throw new UnsupportedOperationException("Unknown uri: " + uri);

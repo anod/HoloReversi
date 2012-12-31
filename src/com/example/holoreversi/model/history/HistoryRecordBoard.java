@@ -28,7 +28,7 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 	}
 	
 	public void createNewGame() {
-		mGameId = mHistoryProvider.insertGame();
+		mGameId = mHistoryProvider.insertGame(mBoard.getSize());
 		mMoves = 0;
 		mGameIdChangeListener.onChange(mGameId);
 	}
