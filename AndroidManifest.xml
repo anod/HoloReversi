@@ -41,7 +41,10 @@
             android:name="com.example.holoreversi.HistoryActivity"
             android:label="@string/title_activity_history" >
         </activity>
-        
+        <activity
+            android:name="com.example.holoreversi.ReplayActivity"
+            android:label="Replay" >
+        </activity>
         <provider
             android:name="com.example.holoreversi.model.history.HistoryProvider"
             android:authorities="com.example.holoreversi"
