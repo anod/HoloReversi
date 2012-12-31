@@ -74,7 +74,7 @@ public class HistoryContract {
 		}
 
 		public static CharSequence buildGameIdSelection(String gameId) {
-			return GameColumns._ID+"="+gameId;
+			return GameColumns.REL+"="+gameId;
 		}
 
 	}

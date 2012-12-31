@@ -84,9 +84,10 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 
 	@Override
 	public boolean move(final Cell cell) {
+		int currentPlayer = mBoard.currentPlayer();
 		boolean moved = mBoard.move(cell);
 		if (moved) {
-			mHistoryProvider.insertMove(mGameId, cell);
+			mHistoryProvider.insertMove(mGameId, cell, currentPlayer);
 			mMoves++;
 		}
 		return moved;

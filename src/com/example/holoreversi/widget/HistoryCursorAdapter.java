@@ -35,7 +35,6 @@ public class HistoryCursorAdapter extends SimpleCursorAdapter {
 		setViewBinder(new RowViewBinder(context));
 		
 	}
-
 	
 	static class RowViewBinder implements SimpleCursorAdapter.ViewBinder {
 

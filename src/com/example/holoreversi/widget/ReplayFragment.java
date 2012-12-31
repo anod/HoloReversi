@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -131,7 +130,7 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String sortOrder = HistoryContract.GameColumns._ID + " DESC";
+        String sortOrder = HistoryContract.GameColumns._ID + " ASC";
         Uri url = HistoryContract.Game.buildGameUri(mGameInfo.id);
 		return new CursorLoader(getActivity(), url, null, null, null, sortOrder);
 	}
@@ -141,7 +140,7 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 		// Swap the new cursor in.  (The framework will take care of closing the
         // old cursor once we return.)
 		mCursor = data;
-		mCursor.moveToPosition(mCurrentPos);
+		mCursor.moveToPosition(mCurrentPos-1);
 		DatabaseUtils.dumpCursor(mCursor);
 		mBoardView.setVisibility(View.VISIBLE);
 	}
@@ -176,7 +175,7 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 		int x = mCursor.getInt(HistoryContract.GameColumns.IDX_X);
 		int y = mCursor.getInt(HistoryContract.GameColumns.IDX_Y);
 		Cell cell = new Cell(x, y);
-		cell.contents = mCursor.getInt(HistoryContract.GameColumns.IDX_KIND);
+		// mCursor.getInt(HistoryContract.GameColumns.IDX_KIND);
 		mBoard.move(cell);
 	}
 }
