@@ -12,6 +12,11 @@ public class ReplayActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Show the Up button in the action bar.
+		if (getSupportActionBar()!=null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		
         FragmentManager fm = getSupportFragmentManager();
 
         // Create the list fragment and add it as our sole content.

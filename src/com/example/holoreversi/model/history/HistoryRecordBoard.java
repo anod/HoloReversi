@@ -20,8 +20,6 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 	private int mMoves;
 	private OnGameIdChangeListener mGameIdChangeListener;
 	
-	private static final Object[] sLock = new Object[0];
-	
 	public HistoryRecordBoard(Board board, HistoryProviderHelper historyProvider, OnGameIdChangeListener listener) {
 		mBoard = board;
 		mHistoryProvider = historyProvider;
@@ -88,14 +86,8 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 	public boolean move(final Cell cell) {
 		boolean moved = mBoard.move(cell);
 		if (moved) {
-			//new Thread(new Runnable() {
-			//	public void run() {
-			//		synchronized (sLock) {
-						mHistoryProvider.insertMove(mGameId, cell);
-						mMoves++;
-			//		}
-			//	}
-			//}).start();
+			mHistoryProvider.insertMove(mGameId, cell);
+			mMoves++;
 		}
 		return moved;
 	}
@@ -114,9 +106,7 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 	public boolean undoMove() {
 		boolean result = mBoard.undoMove();
 		if (result) {
-			//synchronized (sLock) {
-				mMoves--;
-			//}
+			mMoves--;
 		}
 		return result;
 	}
@@ -138,19 +128,12 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 
 	@Override
 	public void onNextPlayer(int nextPlayer) {
-		// TODO Auto-generated method stub
-		
+		// Nothing so far
 	}
 
 	@Override
 	public void onBoardUpdate(final Board board) {
-		//new Thread(new Runnable() {
-		//public void run() {
-		//	synchronized (sLock) {
-//				mHistoryProvider.updateScores(mGameId, board.getScoreBlack(), board.getScoreWhite(), mMoves);
-		//	}
-		//}}).start();
-		
+		// Nothing so far
 	}
 
 	@Override

@@ -3,11 +3,13 @@ package com.example.holoreversi.widget;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.example.holoreversi.R;
+import com.example.holoreversi.model.history.HistoryContract;
 
 public class HistoryListFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	// This is the Adapter being used to display the list's data.
@@ -35,7 +37,11 @@ public class HistoryListFragment extends SherlockListFragment implements LoaderM
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		return new HistoryCursorLoader(getActivity());
+        String selection = HistoryContract.HistoryColumns.COLUMN_NAME_NUMBEROFMOVES + ">?";
+        String[] selectionArgs = new String[] { "0" };
+		return new CursorLoader(getActivity(), 
+			HistoryContract.History.CONTENT_URI, null, selection, selectionArgs, null
+		);
 	}
 
 	@Override
