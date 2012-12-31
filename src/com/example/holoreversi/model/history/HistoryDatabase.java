@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class HistoryDatabase extends SQLiteOpenHelper {
 	private static final String DATABASE_FILE_NAME = "HoloReversi.db";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 5;
 	
 	public HistoryDatabase(Context context) {
 		super(context, DATABASE_FILE_NAME, null, DATABASE_VERSION);
@@ -19,8 +19,8 @@ public class HistoryDatabase extends SQLiteOpenHelper {
 			+ HistoryContract.HistoryColumns.TIME + " TEXT,"
 			+ HistoryContract.HistoryColumns.NUMBEROFMOVES + " INTEGER,"
 			+ HistoryContract.HistoryColumns.SCORE1 + " INTEGER,"
-			+ HistoryContract.HistoryColumns.SCORE2 + " INTEGER"
-			+ HistoryContract.HistoryColumns.SIZE + " INTEGER,"
+			+ HistoryContract.HistoryColumns.SCORE2 + " INTEGER,"
+			+ HistoryContract.HistoryColumns.SIZE + " INTEGER"
 			+ ");");
 		db.execSQL("CREATE TABLE " + HistoryContract.Tables.GAME + " ("
             + HistoryContract.GameColumns._ID + " INTEGER PRIMARY KEY,"
