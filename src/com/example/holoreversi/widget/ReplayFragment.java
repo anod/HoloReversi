@@ -161,21 +161,26 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 		} else if (id == R.id.buttonNext) {
 			if (mCursor != null && mCursor.moveToNext()) {
 				mCurrentPos++;
-				doMove();
+				Cell cell = readCurrentCell();
+				mBoard.move(cell);
 			}
 		} else if (id == R.id.buttonPrev) {
-			if (mCursor != null && mCurrentPos > 0 && mCursor.moveToPrevious()) {
+			if (mCursor != null) {
+				if (mCurrentPos > 0 ) {
+				Cell cell = readCurrentCell();
+				mBoard.undo(cell);
+				mCursor.moveToPrevious();
 				mCurrentPos--;
-				doMove();
+				}
 			}
 		}
 	}
 
-	private void doMove() {
+	private Cell readCurrentCell() {
 		int x = mCursor.getInt(HistoryContract.GameColumns.IDX_X);
 		int y = mCursor.getInt(HistoryContract.GameColumns.IDX_Y);
 		Cell cell = new Cell(x, y);
-		// mCursor.getInt(HistoryContract.GameColumns.IDX_KIND);
-		mBoard.move(cell);
+		return cell;
 	}
+	
 }

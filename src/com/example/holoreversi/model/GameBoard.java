@@ -394,6 +394,11 @@ public class GameBoard implements Board,Parcelable {
 		}
 		return EMPTY;
 	}
+
+	public void undo(Cell cell) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
