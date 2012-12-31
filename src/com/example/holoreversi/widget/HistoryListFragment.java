@@ -1,14 +1,18 @@
 package com.example.holoreversi.widget;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.View;
+import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.example.holoreversi.R;
+import com.example.holoreversi.ReplayActivity;
 import com.example.holoreversi.model.history.HistoryContract;
 
 public class HistoryListFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -57,6 +61,13 @@ public class HistoryListFragment extends SherlockListFragment implements LoaderM
         // above is about to be closed.  We need to make sure we are no
         // longer using it.
         mAdapter.swapCursor(null);
+	}
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		Intent replayIntent = new Intent(getActivity(), ReplayActivity.class);
+		replayIntent.putExtra(ReplayActivity.EXTRA_GAME_ID, id);
+		startActivity(replayIntent);
 	}
 
 }

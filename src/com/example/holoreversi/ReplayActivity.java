@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.example.holoreversi.widget.HistoryListFragment;
+import com.example.holoreversi.widget.ReplayFragment;
 
 public class ReplayActivity extends SherlockFragmentActivity {
-
+	public static final String EXTRA_GAME_ID = "gameId";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,8 +21,8 @@ public class ReplayActivity extends SherlockFragmentActivity {
 
         // Create the list fragment and add it as our sole content.
         if (fm.findFragmentById(android.R.id.content) == null) {
-        	HistoryListFragment list = new HistoryListFragment();
-            fm.beginTransaction().add(android.R.id.content, list).commit();
+        	ReplayFragment content = new ReplayFragment();
+            fm.beginTransaction().add(android.R.id.content, content).commit();
         }
 	}
 }

@@ -40,11 +40,18 @@
         <activity
             android:name="com.example.holoreversi.HistoryActivity"
             android:label="@string/title_activity_history" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.holoreversi.MainActivity" />
         </activity>
         <activity
             android:name="com.example.holoreversi.ReplayActivity"
             android:label="Replay" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.holoreversi.HistoryActivity" />
         </activity>
+        
         <provider
             android:name="com.example.holoreversi.model.history.HistoryProvider"
             android:authorities="com.example.holoreversi"
