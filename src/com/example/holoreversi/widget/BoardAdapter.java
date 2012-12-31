@@ -32,6 +32,9 @@ public class BoardAdapter implements Board.Callback, OnClickListener, Player.OnP
 	private Animation mCellAnim1;
 	private Animation mCellAnim2;
 	private Player mSecondPlayer;
+	
+	private boolean mClickEnabled = true;
+	
 	public BoardAdapter(Board board, boolean isComputerPlayer) {
 		mBoard = board;
 		mBoard.addCallbackListener(this);
@@ -45,6 +48,11 @@ public class BoardAdapter implements Board.Callback, OnClickListener, Player.OnP
 		
 	}
 
+	public void setClickEnabled(boolean enabled) {
+		mClickEnabled = enabled;
+	}
+	
+	
 	public void setContext(Context context) {
 		mContext = context;
 	}
@@ -137,7 +145,9 @@ public class BoardAdapter implements Board.Callback, OnClickListener, Player.OnP
 				} else {
 					final ImageButton btn = (ImageButton)li.inflate(R.layout.board_view_btn, null);
 					btn.setTag(new Cell(j-1, i));
-					btn.setOnClickListener(this);
+					if (mClickEnabled) {
+						btn.setOnClickListener(this);
+					}
 					btn.setMinimumHeight(minSize);
 					btn.setMinimumWidth(minSize);
 					tr.addView(btn);

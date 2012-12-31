@@ -38,6 +38,10 @@ public class HistoryContract {
 		static final String COL_Y = "Y";
 		static final String REL = "GAMEID";
 		static final String KIND = "COLOR";
+		
+		static final int IDX_KIND = 2;
+		static final int IDX_X = 3;
+		static final int IDX_Y = 4;
 	}
 	
 	public static class History implements HistoryColumns {
