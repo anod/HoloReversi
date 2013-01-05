@@ -22,6 +22,7 @@ import com.example.holoreversi.model.board.HistoryRecordBoard;
 import com.example.holoreversi.model.history.HistoryProviderHelper;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
+import com.example.holoreversi.widget.FinishDialogFragment;
 import com.example.holoreversi.widget.ScoreViewAdapter;
 
 public class BoardActivity extends SherlockActivity implements Board.Callback, HistoryRecordBoard.OnGameIdChangeListener {
@@ -156,30 +157,14 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 
 	
 	private void showFinishDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		String playerStr;
-		int winner = mBoard.winner();
-		if (winner == Board.WHITE) {
-			playerStr = getString(R.string.player_name_white) + getString(R.string.player_won);
-		} else if(winner == Board.BLACK) {
-			playerStr = getString(R.string.player_name_blue) + getString(R.string.player_won);
-		} else {
-			playerStr = getString(R.string.tie);
-		}
-		playerStr += "\n" + getString(R.string.scoreBlack, mBoard.getScoreBlack());
-		playerStr += "\n" + getString(R.string.scoreWhite, mBoard.getScoreWhite());
-		builder
-			.setMessage(playerStr)
-			.setCancelable(true)
-			.setOnCancelListener(new OnCancelListener() {
+		FinishDialogFragment.createFinishDialog(
+			mBoard.getScoreBlack(), mBoard.getScoreWhite(), mBoard.winner(), this, new OnCancelListener() {
 				@Override
 				public void onCancel(DialogInterface dialog) {
 					restartGame();
 				}
-			})
-			.create()
-			.show();
-		
+			}
+		).show();
 	}
 
 	@Override
