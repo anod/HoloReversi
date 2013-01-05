@@ -1,5 +1,7 @@
 package com.example.holoreversi.model;
 
+import com.example.holoreversi.model.board.Board;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 

@@ -1,6 +1,8 @@
-package com.example.holoreversi.model;
+package com.example.holoreversi.model.board;
 
 import java.util.ArrayList;
+
+import com.example.holoreversi.model.Cell;
 
 public interface Board {
 	final public static int BLACK = 2;
@@ -11,6 +13,7 @@ public interface Board {
 		void onNextPlayer(int nextPlayer);
 		void onBoardUpdate(final Board board);
 		void onGameEnd(final Board board);
+		void onCellUndo(Cell cell, int kind);
 	}
 
 	void resetBoard();

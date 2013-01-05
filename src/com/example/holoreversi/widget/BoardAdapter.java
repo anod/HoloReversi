@@ -15,8 +15,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.holoreversi.R;
-import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.Cell;
+import com.example.holoreversi.model.board.Board;
 import com.example.holoreversi.model.player.AIPlayer;
 import com.example.holoreversi.model.player.HumanPlayer;
 import com.example.holoreversi.model.player.Player;
@@ -219,6 +219,12 @@ public class BoardAdapter implements Board.Callback, OnClickListener, Player.OnP
 
 	@Override
 	public void onGameEnd(Board board) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCellUndo(Cell cell, int kind) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,9 +1,11 @@
-package com.example.holoreversi.model;
+package com.example.holoreversi.model.board;
 
 import java.util.ArrayList;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.example.holoreversi.model.Cell;
 
 public class GameBoard implements Board,Parcelable {
 
@@ -256,10 +258,12 @@ public class GameBoard implements Board,Parcelable {
 		if (!hasUndo()) {
 			return false;
 		}
-		step--; // becouse current player has already been changed
+		step--; // because current player has already been changed
 		if(currentPlayer() == BLACK)
 		{
 			for (Cell cell : stepChangesBlack) {
+				int kind = tiles[cell.x][cell.y].contents;
+				notifyCellUndo(cell, kind);
 				tiles[cell.x][cell.y].contents = cell.contents; 
 			}
 			stepChangesBlack.clear();
@@ -267,6 +271,8 @@ public class GameBoard implements Board,Parcelable {
 		else
 		{
 			for (Cell cell : stepChangesWhite) {
+				int kind = tiles[cell.x][cell.y].contents;
+				notifyCellUndo(cell, kind);
 				tiles[cell.x][cell.y].contents = cell.contents; 
 			}
 			stepChangesWhite.clear();
@@ -278,6 +284,12 @@ public class GameBoard implements Board,Parcelable {
 		return true;
 	}
 	
+	private void notifyCellUndo(Cell cell, int kind) {
+		for (Callback callback : listenrs) {
+			callback.onCellUndo(cell, kind);
+		}
+	}
+
 	@Override
 	public int describeContents() {
 		// not so sure what should be in here

@@ -1,12 +1,13 @@
-package com.example.holoreversi.model.history;
+package com.example.holoreversi.model.board;
 
 import java.util.ArrayList;
 
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.Cell;
+import com.example.holoreversi.model.history.HistoryContract;
+import com.example.holoreversi.model.history.HistoryProviderHelper;
 
 public class HistoryRecordBoard implements Board, Board.Callback{
 	
@@ -87,7 +88,7 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 		int currentPlayer = mBoard.currentPlayer();
 		boolean moved = mBoard.move(cell);
 		if (moved) {
-			mHistoryProvider.insertMove(mGameId, cell, currentPlayer);
+			mHistoryProvider.insertMove(mGameId, cell, currentPlayer, true);
 			mMoves++;
 		}
 		return moved;
@@ -105,11 +106,11 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 
 	@Override
 	public boolean undoMove() {
-		boolean result = mBoard.undoMove();
-		if (result) {
+		boolean changed = mBoard.undoMove();
+		if (changed) {
 			mMoves--;
 		}
-		return result;
+		return changed;
 	}
 
 	@Override
@@ -141,6 +142,11 @@ public class HistoryRecordBoard implements Board, Board.Callback{
 	public void onGameEnd(final Board board) {
 		mHistoryProvider.updateScores(mGameId, board.getScoreBlack(), board.getScoreWhite(), mMoves);
 		
+	}
+
+	@Override
+	public void onCellUndo(Cell cell, int kind) {
+		mHistoryProvider.insertMove(mGameId, cell, kind, false);
 	}
 
 }

@@ -15,10 +15,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.example.holoreversi.model.Board;
-import com.example.holoreversi.model.GameBoard;
+import com.example.holoreversi.model.Cell;
+import com.example.holoreversi.model.board.Board;
+import com.example.holoreversi.model.board.GameBoard;
+import com.example.holoreversi.model.board.HistoryRecordBoard;
 import com.example.holoreversi.model.history.HistoryProviderHelper;
-import com.example.holoreversi.model.history.HistoryRecordBoard;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
 
@@ -220,6 +221,12 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 	@Override
 	public void onGameEnd(Board board) {
 		showFinishDialog();
+	}
+
+	@Override
+	public void onCellUndo(Cell cell, int kind) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -17,7 +17,7 @@ import android.widget.ImageButton;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.example.holoreversi.R;
 import com.example.holoreversi.model.Cell;
-import com.example.holoreversi.model.GameBoard;
+import com.example.holoreversi.model.board.GameBoard;
 import com.example.holoreversi.model.history.HistoryContract;
 import com.example.holoreversi.model.history.HistoryProviderHelper;
 

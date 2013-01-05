@@ -38,6 +38,7 @@ public class HistoryContract {
 		static final String COL_Y = "Y";
 		static final String REL = "GAMEID";
 		static final String KIND = "COLOR";
+		static final String ACTION = "ACTION";
 		
 		static final int IDX_KIND = 2;
 		static final int IDX_X = 3;
@@ -68,7 +69,10 @@ public class HistoryContract {
 		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_GAMES).build();
         public static final String CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.holoreversi.game";
-        
+
+        public static final int ACTION_MOVE = 1;
+        public static final int ACTION_UNDO = 2;
+
 		public static Uri buildGameUri(long gameId) {
 			return CONTENT_URI.buildUpon().appendPath(Long.toString(gameId)).build();
 		}

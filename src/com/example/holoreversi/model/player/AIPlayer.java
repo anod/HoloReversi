@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import android.os.Handler;
 
-import com.example.holoreversi.model.Board;
 import com.example.holoreversi.model.Cell;
+import com.example.holoreversi.model.board.Board;
 
 public class AIPlayer extends AbstractPlayer {
 	private Board mBoard;

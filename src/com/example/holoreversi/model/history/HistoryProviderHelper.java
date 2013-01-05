@@ -20,12 +20,13 @@ public class HistoryProviderHelper  {
 		mContentResolver = mContext.getContentResolver();
 	}
 
-	public void insertMove(long gameId, Cell cell, int kind) {
+	public void insertMove(long gameId, Cell cell, int kind, boolean isMove) {
 		ContentValues values = new ContentValues();
 		values.put(HistoryContract.GameColumns.COL_X, cell.x);
 		values.put(HistoryContract.GameColumns.COL_Y, cell.y);
 		values.put(HistoryContract.GameColumns.REL, gameId);
 		values.put(HistoryContract.GameColumns.KIND, kind);
+		values.put(HistoryContract.GameColumns.ACTION, (isMove) ? HistoryContract.Game.ACTION_MOVE : HistoryContract.Game.ACTION_UNDO);
 		Uri url = HistoryContract.Game.buildGameUri(gameId);
 		mContentResolver.insert(url, values);
 	}
