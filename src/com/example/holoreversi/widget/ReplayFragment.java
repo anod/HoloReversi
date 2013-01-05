@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.example.holoreversi.R;
@@ -34,6 +35,7 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 	private int mCurrentPos;
 	private Cursor mCursor;
 	private BoardView mBoardView;
+	private ScoreViewAdapter mScoreAdapter;
 	/**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -94,7 +96,8 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 		mBoardView.setAdapter(adapter);
 
 		mBoardView.setVisibility(View.GONE);
-		
+		mScoreAdapter.init(mBoard);
+
 		historyProvider.getMoves(mGameInfo.id);
 		// Prepare the loader. Either re-connect with an existing one,
 		// or start a new one.
@@ -115,6 +118,13 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 		buttonNext.setOnClickListener(this);
 		buttonPrev.setOnClickListener(this);
 		
+		mScoreAdapter = new ScoreViewAdapter();
+		mScoreAdapter.setupWidgets(
+			(TextView)layout.findViewById(R.id.scoreWhite),
+			(TextView)layout.findViewById(R.id.scoreBlack),
+			(ImageButton)layout.findViewById(R.id.playerWhite),
+			(ImageButton)layout.findViewById(R.id.playerBlack)
+		);
         return layout;
     }
     

@@ -22,6 +22,7 @@ import com.example.holoreversi.model.board.HistoryRecordBoard;
 import com.example.holoreversi.model.history.HistoryProviderHelper;
 import com.example.holoreversi.widget.BoardAdapter;
 import com.example.holoreversi.widget.BoardView;
+import com.example.holoreversi.widget.ScoreViewAdapter;
 
 public class BoardActivity extends SherlockActivity implements Board.Callback, HistoryRecordBoard.OnGameIdChangeListener {
 	
@@ -30,10 +31,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 	private static final String STATE_BOARD = "state_board";
 	public static final String EXTRA_BOARD_SIZE = "BoardSize";
 	public static final String EXTRA_COMPUTER_PLAYER = "ComputerPlayer";
-	private TextView mScoreWhite;
-	private TextView mScoreBlack;
-	private ImageButton mPlayerWhite;
-	private ImageButton mPlayerBlack;
+	private ScoreViewAdapter mScoreAdapter;
 	private GameBoard mBoard;
 	private Button mUndoButton;
 	private long mGameId;
@@ -74,19 +72,21 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 		BoardAdapter adapter = new BoardAdapter(boardWithHistory, isComputerPlayer);
 		boardView.setAdapter(adapter);
 
+		mScoreAdapter = new ScoreViewAdapter();
+		
 		setupWidgets();
 		mBoard.addCallbackListener(this);
 		
-		setScoreView(mBoard.getScoreBlack(),mBoard.getScoreWhite());
-		setPlayerView(mBoard.currentPlayer());
-		
+		mScoreAdapter.init(mBoard);
 	}
 
 	private void setupWidgets() {
-		mScoreWhite = (TextView)findViewById(R.id.scoreWhite);
-		mScoreBlack = (TextView)findViewById(R.id.scoreBlack);
-		mPlayerWhite = (ImageButton)findViewById(R.id.playerWhite);
-		mPlayerBlack = (ImageButton)findViewById(R.id.playerBlack);
+		mScoreAdapter.setupWidgets(
+			(TextView)findViewById(R.id.scoreWhite),
+			(TextView)findViewById(R.id.scoreBlack),
+			(ImageButton)findViewById(R.id.playerWhite),
+			(ImageButton)findViewById(R.id.playerBlack)
+		);
 		mUndoButton = (Button)findViewById(R.id.buttonUndo);
 		mUndoButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -116,22 +116,7 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 	private void restartGame() {
 		mBoard.resetBoard();
 	}
-	
-	private void setPlayerView(int currentPlayer) {
-		if (currentPlayer == Board.BLACK) {
-			mPlayerBlack.setEnabled(true);
-			mPlayerWhite.setEnabled(false);
-		} else {
-			mPlayerBlack.setEnabled(false);
-			mPlayerWhite.setEnabled(true);
-		}
-		
-	}
 
-	private void setScoreView(int scoreBlack, int scoreWhite) {
-		mScoreWhite.setText(""+scoreWhite);
-		mScoreBlack.setText(""+scoreBlack);
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -162,14 +147,11 @@ public class BoardActivity extends SherlockActivity implements Board.Callback, H
 
 	@Override
 	public void onBoardUpdate(Board board) {
-		setPlayerView(board.currentPlayer());
-		setScoreView(board.getScoreBlack(), board.getScoreWhite());
 		if (board.hasUndo()) {
 			mUndoButton.setEnabled(true);
 		} else {
 			mUndoButton.setEnabled(false);
 		}
-		// TODO end the game and return to main activity
 	}
 
 	
