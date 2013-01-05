@@ -1,9 +1,14 @@
 package com.example.holoreversi.widget;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -21,6 +26,7 @@ import com.example.holoreversi.model.Cell;
 import com.example.holoreversi.model.board.GameBoard;
 import com.example.holoreversi.model.history.HistoryContract;
 import com.example.holoreversi.model.history.HistoryProviderHelper;
+import com.example.holoreversi.model.player.AIPlayer;
 
 public class ReplayFragment extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
 	
@@ -36,6 +42,10 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 	private Cursor mCursor;
 	private BoardView mBoardView;
 	private ScoreViewAdapter mScoreAdapter;
+	private boolean mRunning = false;
+	private TimerTask runTask;
+	private Handler handler = new Handler();
+	private Timer mPlayTimer; 
 	/**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -167,7 +177,21 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 	public void onClick(View v) {
 		int id = v.getId();
 		if (id == R.id.buttonPlay) {
-			play();
+			ImageButton btn_play = (ImageButton)v;
+			if(mRunning)
+			{
+				Drawable replacer = getResources().getDrawable(R.drawable.ic_action_playback_play);
+				pause();
+				btn_play.setImageDrawable(replacer);
+				btn_play.invalidate();
+			}
+			else
+			{
+				Drawable replacer = getResources().getDrawable(R.drawable.ic_action_playback_pause);
+				play();
+				btn_play.setImageDrawable(replacer);
+				btn_play.invalidate();
+			}
 		} else if (id == R.id.buttonNext) {
 			nextMove();
 		} else if (id == R.id.buttonPrev) {
@@ -176,10 +200,27 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 	}
 
 	private void play() {
-		// TODO Auto-generated method stub
-		
+			mRunning = true;
+			mPlayTimer = new Timer();
+			runTask = new TimerTask() {
+		        public void run() {
+		                handler.post(new Runnable() {
+		                        public void run() {
+		                        	if (mCursor != null && mCursor.moveToNext()) {
+		                    			mCurrentPos++;
+		                    			Cell cell = readCurrentCell();
+		                    			mBoard.move(cell);
+		                        	}
+		                        }});
+		        };
+			};
+		    mPlayTimer.schedule(runTask, 100, 1000);
+}  
+	private void pause()
+	{
+		mPlayTimer.cancel();
+		mRunning = false;
 	}
-
 	private void prevMove() {
 		if (mCursor != null) {
 			if (mCurrentPos > 0 ) {
