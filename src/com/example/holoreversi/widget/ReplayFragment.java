@@ -184,7 +184,7 @@ public class ReplayFragment extends SherlockFragment implements LoaderManager.Lo
 		if (mCursor != null) {
 			if (mCurrentPos > 0 ) {
 			Cell cell = readCurrentCell();
-			mBoard.undo(cell);
+			mBoard.undoMove();
 			mCursor.moveToPrevious();
 			mCurrentPos--;
 			}

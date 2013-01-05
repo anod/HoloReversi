@@ -13,16 +13,18 @@ public class GameBoard implements Board,Parcelable {
 	private int scoreBlack;
 	private int boardSize;
 	private Cell tiles[][] = null;
-	//private ArrayList<ArrayList<Cell>> stepChanges;
-	private ArrayList<Cell> stepChangesBlack;
-	private ArrayList<Cell> stepChangesWhite;
+	private ArrayList<ArrayList<Cell>> stepChanges;
+	private ArrayList<Cell> currentStep;
+	//private ArrayList<Cell> stepChangesBlack;
+	//private ArrayList<Cell> stepChangesWhite;
 	private ArrayList<Callback> listenrs;
 	private int step;
 
 	public GameBoard(int size)
 	{
-		stepChangesBlack = new ArrayList<Cell>();
-		stepChangesWhite = new ArrayList<Cell>();
+		//stepChangesBlack = new ArrayList<Cell>();
+		//stepChangesWhite = new ArrayList<Cell>();
+		stepChanges = new ArrayList<ArrayList<Cell>>();
 		listenrs = new ArrayList<Board.Callback>();
 		boardSize = size;
 		resetBoardInternal(false);
@@ -42,14 +44,14 @@ public class GameBoard implements Board,Parcelable {
 			}
 		}
 		step = in.readInt();
-		int size = in.readInt();
+		//int size = in.readInt();
 		//stepChanges = new ArrayList<Cell>();
 		//for(int i=0;i<size;i++)
 		//{
 		//	stepChanges.add(new Cell(in));
 		//}
 		calculateScore();
-		
+		stepChanges = new ArrayList<ArrayList<Cell>>();
 	}
 
 	public static final Parcelable.Creator<GameBoard> CREATOR
@@ -67,8 +69,8 @@ public class GameBoard implements Board,Parcelable {
 	public boolean hasUndo() {
 		if(step == 0)
 			return false;
-		if(currentPlayer() == BLACK && stepChangesBlack.size()== 0)
-			return false; // means either the black did undo so it is now the white turn and he still has one undo left.
+		//if(currentPlayer() == BLACK && stepChangesBlack.size()== 0)
+		//	return false; // means either the black did undo so it is now the white turn and he still has one undo left.
 		return true;
 	}
 	
@@ -82,8 +84,10 @@ public class GameBoard implements Board,Parcelable {
 	
     
 	private void resetBoardInternal(boolean notify) {
-		stepChangesBlack.clear();
-		stepChangesWhite.clear();
+		//stepChangesBlack.clear();
+		//stepChangesWhite.clear();
+		stepChanges.clear();
+		currentStep = null;
     	tiles = new Cell[boardSize][boardSize];
 		for (int i=0;i<boardSize;i++) {
 			for (int j=0;j<boardSize;j++) {
@@ -259,7 +263,15 @@ public class GameBoard implements Board,Parcelable {
 			return false;
 		}
 		step--; // because current player has already been changed
-		if(currentPlayer() == BLACK)
+		// undoing a step
+		ArrayList<Cell> curr = stepChanges.remove(step);
+		for(Cell cell : curr)
+		{
+			int kind = tiles[cell.x][cell.y].contents;
+			notifyCellUndo(cell, kind);
+			tiles[cell.x][cell.y].contents = cell.contents;
+		}
+/*		if(currentPlayer() == BLACK)
 		{
 			for (Cell cell : stepChangesBlack) {
 				int kind = tiles[cell.x][cell.y].contents;
@@ -277,10 +289,11 @@ public class GameBoard implements Board,Parcelable {
 			}
 			stepChangesWhite.clear();
 		}
-
-
+*/
 		calculateScore();
 		notifyCellUpdate();
+		if(curr.size() == 0)
+			undoMove();
 		return true;
 	}
 	
@@ -327,6 +340,8 @@ public class GameBoard implements Board,Parcelable {
 	public boolean move(Cell cell) {
 		if(cell.contents != EMPTY)
 			return false;
+		currentStep = new ArrayList<Cell>();
+		/*
 		if(currentPlayer() == BLACK)
 		{
 			stepChangesBlack.clear();
@@ -335,18 +350,23 @@ public class GameBoard implements Board,Parcelable {
 		{
 			stepChangesWhite.clear();
 		}
+		*/
 		int changed = doMove(cell);
 		if (changed == 0) {
 			return false;
 		}
 		calculateScore();
+		stepChanges.add(currentStep);
 		step++;
+		currentStep = null;
 		if(getAllowedMoves().size() == 0) {
 			step++;
+			stepChanges.add(new ArrayList<Cell>());
 		}
 		if (isGameEnded()) {
 			notifyGameEnd();
 		}
+		
 		notifyCellUpdate();
 		notifyNextPlayer();
 		return true;
@@ -357,10 +377,13 @@ public class GameBoard implements Board,Parcelable {
 	{
 		Cell temp = new Cell(x, y);
 		temp.contents = tiles[x][y].contents;
+		/*
 		if(kind == BLACK)
 			stepChangesBlack.add(temp);
 		else
 			stepChangesWhite.add(temp);
+		*/
+		currentStep.add(temp);
 		tiles[x][y].contents = kind;
 	}
 	
